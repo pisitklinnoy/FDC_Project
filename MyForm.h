@@ -34,6 +34,20 @@ namespace FDCProject {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::ToolStripContainer^ toolStripContainer1;
+	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ uploadToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ exitToolStripMenuItem;
+	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	protected:
+
+	protected:
+
+	protected:
 
 	private:
 		/// <summary>
@@ -48,12 +62,133 @@ namespace FDCProject {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->toolStripContainer1 = (gcnew System::Windows::Forms::ToolStripContainer());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->uploadToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->toolStripContainer1->ContentPanel->SuspendLayout();
+			this->toolStripContainer1->TopToolStripPanel->SuspendLayout();
+			this->toolStripContainer1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			this->menuStrip1->SuspendLayout();
+			this->SuspendLayout();
+			// 
+			// toolStripContainer1
+			// 
+			// 
+			// toolStripContainer1.ContentPanel
+			// 
+			this->toolStripContainer1->ContentPanel->Controls->Add(this->button2);
+			this->toolStripContainer1->ContentPanel->Controls->Add(this->button1);
+			this->toolStripContainer1->ContentPanel->Controls->Add(this->pictureBox1);
+			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(576, 422);
+			this->toolStripContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->toolStripContainer1->Location = System::Drawing::Point(0, 0);
+			this->toolStripContainer1->Name = L"toolStripContainer1";
+			this->toolStripContainer1->Size = System::Drawing::Size(576, 450);
+			this->toolStripContainer1->TabIndex = 0;
+			this->toolStripContainer1->Text = L"toolStripContainer1";
+			// 
+			// toolStripContainer1.TopToolStripPanel
+			// 
+			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->menuStrip1);
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(316, 282);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(153, 70);
+			this->button2->TabIndex = 2;
+			this->button2->Text = L"button2";
+			this->button2->UseVisualStyleBackColor = true;
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(111, 282);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(153, 70);
+			this->button1->TabIndex = 1;
+			this->button1->Text = L"button1";
+			this->button1->UseVisualStyleBackColor = true;
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Location = System::Drawing::Point(111, 3);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(358, 211);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
+			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->Dock = System::Windows::Forms::DockStyle::None;
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Size = System::Drawing::Size(576, 28);
+			this->menuStrip1->TabIndex = 0;
+			this->menuStrip1->Text = L"menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->uploadToolStripMenuItem,
+					this->exitToolStripMenuItem
+			});
+			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(46, 24);
+			this->fileToolStripMenuItem->Text = L"File";
+			// 
+			// uploadToolStripMenuItem
+			// 
+			this->uploadToolStripMenuItem->Name = L"uploadToolStripMenuItem";
+			this->uploadToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->uploadToolStripMenuItem->Text = L"Upload";
+			this->uploadToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::uploadToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->exitToolStripMenuItem->Text = L"Exit";
+			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(576, 450);
+			this->Controls->Add(this->toolStripContainer1);
+			this->MainMenuStrip = this->menuStrip1;
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			this->toolStripContainer1->ContentPanel->ResumeLayout(false);
+			this->toolStripContainer1->TopToolStripPanel->ResumeLayout(false);
+			this->toolStripContainer1->TopToolStripPanel->PerformLayout();
+			this->toolStripContainer1->ResumeLayout(false);
+			this->toolStripContainer1->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
-	};
+	private: System::Void uploadToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			pictureBox1->Image = Bitmap::FromFile(openFileDialog1->FileName);
+		}
+	}
+};
 }
