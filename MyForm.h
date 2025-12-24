@@ -46,6 +46,8 @@ namespace FDCProject {
 	private: System::Windows::Forms::ToolStripMenuItem^ uploadToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ exitToolStripMenuItem;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	private: System::Windows::Forms::SplitContainer^ splitContainer1;
+	private: System::Windows::Forms::PictureBox^ pictureBox2;
 	protected:
 
 	protected:
@@ -74,11 +76,18 @@ namespace FDCProject {
 			this->uploadToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->toolStripContainer1->ContentPanel->SuspendLayout();
 			this->toolStripContainer1->TopToolStripPanel->SuspendLayout();
 			this->toolStripContainer1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->menuStrip1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
+			this->splitContainer1->Panel1->SuspendLayout();
+			this->splitContainer1->Panel2->SuspendLayout();
+			this->splitContainer1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// toolStripContainer1
@@ -86,14 +95,14 @@ namespace FDCProject {
 			// 
 			// toolStripContainer1.ContentPanel
 			// 
+			this->toolStripContainer1->ContentPanel->Controls->Add(this->splitContainer1);
 			this->toolStripContainer1->ContentPanel->Controls->Add(this->button2);
 			this->toolStripContainer1->ContentPanel->Controls->Add(this->button1);
-			this->toolStripContainer1->ContentPanel->Controls->Add(this->pictureBox1);
-			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(576, 422);
+			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(572, 421);
 			this->toolStripContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->toolStripContainer1->Location = System::Drawing::Point(0, 0);
 			this->toolStripContainer1->Name = L"toolStripContainer1";
-			this->toolStripContainer1->Size = System::Drawing::Size(576, 450);
+			this->toolStripContainer1->Size = System::Drawing::Size(572, 449);
 			this->toolStripContainer1->TabIndex = 0;
 			this->toolStripContainer1->Text = L"toolStripContainer1";
 			// 
@@ -103,9 +112,9 @@ namespace FDCProject {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(316, 282);
+			this->button2->Location = System::Drawing::Point(362, 291);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(153, 70);
+			this->button2->Size = System::Drawing::Size(142, 56);
 			this->button2->TabIndex = 2;
 			this->button2->Text = L"button2";
 			this->button2->UseVisualStyleBackColor = true;
@@ -113,9 +122,9 @@ namespace FDCProject {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(111, 282);
+			this->button1->Location = System::Drawing::Point(85, 291);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(153, 70);
+			this->button1->Size = System::Drawing::Size(146, 56);
 			this->button1->TabIndex = 1;
 			this->button1->Text = L"button1";
 			this->button1->UseVisualStyleBackColor = true;
@@ -123,9 +132,10 @@ namespace FDCProject {
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->Location = System::Drawing::Point(111, 3);
+			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->pictureBox1->Location = System::Drawing::Point(0, 0);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(358, 211);
+			this->pictureBox1->Size = System::Drawing::Size(173, 216);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
@@ -137,7 +147,7 @@ namespace FDCProject {
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(576, 28);
+			this->menuStrip1->Size = System::Drawing::Size(572, 28);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -154,25 +164,51 @@ namespace FDCProject {
 			// uploadToolStripMenuItem
 			// 
 			this->uploadToolStripMenuItem->Name = L"uploadToolStripMenuItem";
-			this->uploadToolStripMenuItem->Size = System::Drawing::Size(141, 26);
+			this->uploadToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->uploadToolStripMenuItem->Text = L"Upload";
 			this->uploadToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::uploadToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(141, 26);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			// 
 			// openFileDialog1
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// splitContainer1
+			// 
+			this->splitContainer1->Location = System::Drawing::Point(12, 29);
+			this->splitContainer1->Name = L"splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this->splitContainer1->Panel1->Controls->Add(this->pictureBox1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this->splitContainer1->Panel2->Controls->Add(this->pictureBox2);
+			this->splitContainer1->Size = System::Drawing::Size(552, 216);
+			this->splitContainer1->SplitterDistance = 173;
+			this->splitContainer1->TabIndex = 3;
+			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->pictureBox2->Location = System::Drawing::Point(0, 0);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(375, 216);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox2->TabIndex = 0;
+			this->pictureBox2->TabStop = false;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(576, 450);
+			this->ClientSize = System::Drawing::Size(572, 449);
 			this->Controls->Add(this->toolStripContainer1);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
@@ -185,6 +221,11 @@ namespace FDCProject {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
+			this->splitContainer1->Panel1->ResumeLayout(false);
+			this->splitContainer1->Panel2->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->EndInit();
+			this->splitContainer1->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
 
 		}
