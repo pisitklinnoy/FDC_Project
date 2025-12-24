@@ -122,15 +122,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CropForm.cpp" />
+    <ClCompile Include="GalleryForm.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CropForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="GalleryForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CropForm.resx">
+      <DependentUpon>CropForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GalleryForm.resx">
+      <DependentUpon>GalleryForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>

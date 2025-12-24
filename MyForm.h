@@ -1,5 +1,8 @@
 #pragma once
-
+#include "CropForm.h"
+#include "GalleryForm.h"
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
 namespace FDCProject {
 
 	using namespace System;
@@ -106,6 +109,7 @@ namespace FDCProject {
 			this->button2->TabIndex = 2;
 			this->button2->Text = L"button2";
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
 			// button1
 			// 
@@ -115,6 +119,7 @@ namespace FDCProject {
 			this->button1->TabIndex = 1;
 			this->button1->Text = L"button1";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
 			// pictureBox1
 			// 
@@ -149,14 +154,14 @@ namespace FDCProject {
 			// uploadToolStripMenuItem
 			// 
 			this->uploadToolStripMenuItem->Name = L"uploadToolStripMenuItem";
-			this->uploadToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->uploadToolStripMenuItem->Size = System::Drawing::Size(141, 26);
 			this->uploadToolStripMenuItem->Text = L"Upload";
 			this->uploadToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::uploadToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(141, 26);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			// 
 			// openFileDialog1
@@ -190,5 +195,13 @@ namespace FDCProject {
 			pictureBox1->Image = Bitmap::FromFile(openFileDialog1->FileName);
 		}
 	}
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	CropForm^ cropForm = gcnew CropForm();
+	cropForm->ShowDialog();
+}
+private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+	GalleryForm^ galleryForm = gcnew GalleryForm();
+	galleryForm->ShowDialog();
+}
 };
 }
