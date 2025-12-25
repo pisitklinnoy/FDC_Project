@@ -211,7 +211,7 @@ namespace FDCProject {
 					return;
 				}
 
-				std::string cascadePath = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_default.xml";
+				std::string cascadePath = "data\\haarcascades\\haarcascade_frontalface_default.xml";
 				
 				int faceCount = faceDetector->DetectFaces(cascadePath);
 				
