@@ -1,8 +1,10 @@
 #pragma once
-#include "CropForm.h"
-#include "GalleryForm.h"
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
+
+namespace FDCProject {
+	ref class CropForm;
+	ref class GalleryForm;
+}
+
 namespace FDCProject {
 
 	using namespace System;
@@ -12,24 +14,15 @@ namespace FDCProject {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Summary for MyForm
-	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~MyForm()
 		{
 			if (components)
@@ -37,212 +30,192 @@ namespace FDCProject {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::ToolStripContainer^ toolStripContainer1;
-	private: System::Windows::Forms::Button^ button2;
-	private: System::Windows::Forms::Button^ button1;
+
+	private: System::Windows::Forms::Label^ lblTitle;
+	private: System::Windows::Forms::Label^ lblStatus;
+	private: System::Windows::Forms::GroupBox^ groupBox1;
+	private: System::Windows::Forms::GroupBox^ groupBox2;
+	private: System::Windows::Forms::GroupBox^ groupBox3;
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
-	private: System::Windows::Forms::MenuStrip^ menuStrip1;
-	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ uploadToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ exitToolStripMenuItem;
-	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
-	private: System::Windows::Forms::SplitContainer^ splitContainer1;
 	private: System::Windows::Forms::PictureBox^ pictureBox2;
-	protected:
-
-	protected:
-
-	protected:
+	private: System::Windows::Forms::PictureBox^ pictureBox3;
+	private: System::Windows::Forms::Label^ lblScore1;
+	private: System::Windows::Forms::Label^ lblScore2;
+	private: System::Windows::Forms::Label^ lblScore3;
+	private: System::Windows::Forms::Button^ btnSearchPerson;
+	private: System::Windows::Forms::Button^ btnManageGallery;
 
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->toolStripContainer1 = (gcnew System::Windows::Forms::ToolStripContainer());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->lblTitle = (gcnew System::Windows::Forms::Label());
+			this->lblStatus = (gcnew System::Windows::Forms::Label());
+			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->lblScore1 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
-			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->uploadToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->lblScore2 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
-			this->toolStripContainer1->ContentPanel->SuspendLayout();
-			this->toolStripContainer1->TopToolStripPanel->SuspendLayout();
-			this->toolStripContainer1->SuspendLayout();
+			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->lblScore3 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
+			this->btnSearchPerson = (gcnew System::Windows::Forms::Button());
+			this->btnManageGallery = (gcnew System::Windows::Forms::Button());
+			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
-			this->menuStrip1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
-			this->splitContainer1->Panel1->SuspendLayout();
-			this->splitContainer1->Panel2->SuspendLayout();
-			this->splitContainer1->SuspendLayout();
+			this->groupBox2->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
+			this->groupBox3->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// toolStripContainer1
-			// 
-			// 
-			// toolStripContainer1.ContentPanel
-			// 
-			this->toolStripContainer1->ContentPanel->Controls->Add(this->splitContainer1);
-			this->toolStripContainer1->ContentPanel->Controls->Add(this->button2);
-			this->toolStripContainer1->ContentPanel->Controls->Add(this->button1);
-			this->toolStripContainer1->ContentPanel->Size = System::Drawing::Size(572, 421);
-			this->toolStripContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->toolStripContainer1->Location = System::Drawing::Point(0, 0);
-			this->toolStripContainer1->Name = L"toolStripContainer1";
-			this->toolStripContainer1->Size = System::Drawing::Size(572, 449);
-			this->toolStripContainer1->TabIndex = 0;
-			this->toolStripContainer1->Text = L"toolStripContainer1";
-			// 
-			// toolStripContainer1.TopToolStripPanel
-			// 
-			this->toolStripContainer1->TopToolStripPanel->Controls->Add(this->menuStrip1);
-			// 
-			// button2
-			// 
-			this->button2->Location = System::Drawing::Point(362, 291);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(142, 56);
-			this->button2->TabIndex = 2;
-			this->button2->Text = L"button2";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
-			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(85, 291);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(146, 56);
-			this->button1->TabIndex = 1;
-			this->button1->Text = L"button1";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
-			// 
-			// pictureBox1
-			// 
-			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->pictureBox1->Location = System::Drawing::Point(0, 0);
+			this->lblTitle->AutoSize = true;
+			this->lblTitle->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16, System::Drawing::FontStyle::Bold));
+			this->lblTitle->Location = System::Drawing::Point(230, 20);
+			this->lblTitle->Name = L"lblTitle";
+			this->lblTitle->Size = System::Drawing::Size(286, 31);
+			this->lblTitle->TabIndex = 0;
+			this->lblTitle->Text = L"Face Search Results";
+			this->lblStatus->AutoSize = true;
+			this->lblStatus->Location = System::Drawing::Point(20, 70);
+			this->lblStatus->Name = L"lblStatus";
+			this->lblStatus->Size = System::Drawing::Size(133, 16);
+			this->lblStatus->TabIndex = 1;
+			this->lblStatus->Text = L"Status: No search yet";
+			this->groupBox1->Controls->Add(this->lblScore1);
+			this->groupBox1->Controls->Add(this->pictureBox1);
+			this->groupBox1->Location = System::Drawing::Point(30, 110);
+			this->groupBox1->Name = L"groupBox1";
+			this->groupBox1->Size = System::Drawing::Size(200, 280);
+			this->groupBox1->TabIndex = 2;
+			this->groupBox1->TabStop = false;
+			this->groupBox1->Text = L"#1";
+			this->lblScore1->AutoSize = true;
+			this->lblScore1->Location = System::Drawing::Point(60, 250);
+			this->lblScore1->Name = L"lblScore1";
+			this->lblScore1->Size = System::Drawing::Size(53, 16);
+			this->lblScore1->TabIndex = 1;
+			this->lblScore1->Text = L"Score: -";
+			this->pictureBox1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->pictureBox1->Location = System::Drawing::Point(25, 30);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(173, 216);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox1->Size = System::Drawing::Size(150, 200);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
-			// 
-			// menuStrip1
-			// 
-			this->menuStrip1->Dock = System::Windows::Forms::DockStyle::None;
-			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
-			this->menuStrip1->Location = System::Drawing::Point(0, 0);
-			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(572, 28);
-			this->menuStrip1->TabIndex = 0;
-			this->menuStrip1->Text = L"menuStrip1";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->uploadToolStripMenuItem,
-					this->exitToolStripMenuItem
-			});
-			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(46, 24);
-			this->fileToolStripMenuItem->Text = L"File";
-			// 
-			// uploadToolStripMenuItem
-			// 
-			this->uploadToolStripMenuItem->Name = L"uploadToolStripMenuItem";
-			this->uploadToolStripMenuItem->Size = System::Drawing::Size(224, 26);
-			this->uploadToolStripMenuItem->Text = L"Upload";
-			this->uploadToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::uploadToolStripMenuItem_Click);
-			// 
-			// exitToolStripMenuItem
-			// 
-			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(224, 26);
-			this->exitToolStripMenuItem->Text = L"Exit";
-			// 
-			// openFileDialog1
-			// 
-			this->openFileDialog1->FileName = L"openFileDialog1";
-			// 
-			// splitContainer1
-			// 
-			this->splitContainer1->Location = System::Drawing::Point(12, 29);
-			this->splitContainer1->Name = L"splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this->splitContainer1->Panel1->Controls->Add(this->pictureBox1);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this->splitContainer1->Panel2->Controls->Add(this->pictureBox2);
-			this->splitContainer1->Size = System::Drawing::Size(552, 216);
-			this->splitContainer1->SplitterDistance = 173;
-			this->splitContainer1->TabIndex = 3;
-			// 
-			// pictureBox2
-			// 
-			this->pictureBox2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->pictureBox2->Location = System::Drawing::Point(0, 0);
+			this->groupBox2->Controls->Add(this->lblScore2);
+			this->groupBox2->Controls->Add(this->pictureBox2);
+			this->groupBox2->Location = System::Drawing::Point(260, 110);
+			this->groupBox2->Name = L"groupBox2";
+			this->groupBox2->Size = System::Drawing::Size(200, 280);
+			this->groupBox2->TabIndex = 3;
+			this->groupBox2->TabStop = false;
+			this->groupBox2->Text = L"#2";
+			this->lblScore2->AutoSize = true;
+			this->lblScore2->Location = System::Drawing::Point(60, 250);
+			this->lblScore2->Name = L"lblScore2";
+			this->lblScore2->Size = System::Drawing::Size(53, 16);
+			this->lblScore2->TabIndex = 1;
+			this->lblScore2->Text = L"Score: -";
+			this->pictureBox2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->pictureBox2->Location = System::Drawing::Point(25, 30);
 			this->pictureBox2->Name = L"pictureBox2";
-			this->pictureBox2->Size = System::Drawing::Size(375, 216);
-			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox2->Size = System::Drawing::Size(150, 200);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBox2->TabIndex = 0;
 			this->pictureBox2->TabStop = false;
-			// 
-			// MyForm
-			// 
+			this->groupBox3->Controls->Add(this->lblScore3);
+			this->groupBox3->Controls->Add(this->pictureBox3);
+			this->groupBox3->Location = System::Drawing::Point(490, 110);
+			this->groupBox3->Name = L"groupBox3";
+			this->groupBox3->Size = System::Drawing::Size(200, 280);
+			this->groupBox3->TabIndex = 4;
+			this->groupBox3->TabStop = false;
+			this->groupBox3->Text = L"#3";
+			this->lblScore3->AutoSize = true;
+			this->lblScore3->Location = System::Drawing::Point(60, 250);
+			this->lblScore3->Name = L"lblScore3";
+			this->lblScore3->Size = System::Drawing::Size(53, 16);
+			this->lblScore3->TabIndex = 1;
+			this->lblScore3->Text = L"Score: -";
+			this->pictureBox3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->pictureBox3->Location = System::Drawing::Point(25, 30);
+			this->pictureBox3->Name = L"pictureBox3";
+			this->pictureBox3->Size = System::Drawing::Size(150, 200);
+			this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox3->TabIndex = 0;
+			this->pictureBox3->TabStop = false;
+			this->btnSearchPerson->Location = System::Drawing::Point(181, 420);
+			this->btnSearchPerson->Name = L"btnSearchPerson";
+			this->btnSearchPerson->Size = System::Drawing::Size(150, 40);
+			this->btnSearchPerson->TabIndex = 5;
+			this->btnSearchPerson->Text = L"Search Person";
+			this->btnSearchPerson->UseVisualStyleBackColor = true;
+			this->btnSearchPerson->Click += gcnew System::EventHandler(this, &MyForm::btnSearchPerson_Click);
+			this->btnManageGallery->Location = System::Drawing::Point(420, 420);
+			this->btnManageGallery->Name = L"btnManageGallery";
+			this->btnManageGallery->Size = System::Drawing::Size(150, 40);
+			this->btnManageGallery->TabIndex = 6;
+			this->btnManageGallery->Text = L"Manage Gallery";
+			this->btnManageGallery->UseVisualStyleBackColor = true;
+			this->btnManageGallery->Click += gcnew System::EventHandler(this, &MyForm::btnManageGallery_Click);
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(572, 449);
-			this->Controls->Add(this->toolStripContainer1);
-			this->MainMenuStrip = this->menuStrip1;
+			this->ClientSize = System::Drawing::Size(720, 490);
+			this->Controls->Add(this->btnManageGallery);
+			this->Controls->Add(this->btnSearchPerson);
+			this->Controls->Add(this->groupBox3);
+			this->Controls->Add(this->groupBox2);
+			this->Controls->Add(this->groupBox1);
+			this->Controls->Add(this->lblStatus);
+			this->Controls->Add(this->lblTitle);
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
-			this->toolStripContainer1->ContentPanel->ResumeLayout(false);
-			this->toolStripContainer1->TopToolStripPanel->ResumeLayout(false);
-			this->toolStripContainer1->TopToolStripPanel->PerformLayout();
-			this->toolStripContainer1->ResumeLayout(false);
-			this->toolStripContainer1->PerformLayout();
+			this->Text = L"Face Search System";
+			this->groupBox1->ResumeLayout(false);
+			this->groupBox1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
-			this->menuStrip1->ResumeLayout(false);
-			this->menuStrip1->PerformLayout();
-			this->splitContainer1->Panel1->ResumeLayout(false);
-			this->splitContainer1->Panel2->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->EndInit();
-			this->splitContainer1->ResumeLayout(false);
+			this->groupBox2->ResumeLayout(false);
+			this->groupBox2->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			this->groupBox3->ResumeLayout(false);
+			this->groupBox3->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void uploadToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+
+	public:
+		void UpdateSearchResults(array<String^>^ imagePaths, array<double>^ scores)
 		{
-			pictureBox1->Image = Bitmap::FromFile(openFileDialog1->FileName);
+			if (imagePaths->Length >= 1 && imagePaths[0] != nullptr)
+			{
+				pictureBox1->Image = Image::FromFile(imagePaths[0]);
+				double similarity = 100.0 / (1.0 + scores[0] / 1000.0);
+				lblScore1->Text = "Score: " + similarity.ToString("F1") + "%";
+			}
+			if (imagePaths->Length >= 2 && imagePaths[1] != nullptr)
+			{
+				pictureBox2->Image = Image::FromFile(imagePaths[1]);
+				double similarity = 100.0 / (1.0 + scores[1] / 1000.0);
+				lblScore2->Text = "Score: " + similarity.ToString("F1") + "%";
+			}
+			if (imagePaths->Length >= 3 && imagePaths[2] != nullptr)
+			{
+				pictureBox3->Image = Image::FromFile(imagePaths[2]);
+				double similarity = 100.0 / (1.0 + scores[2] / 1000.0);
+				lblScore3->Text = "Score: " + similarity.ToString("F1") + "%";
+			}
+			lblStatus->Text = "Status: Search completed - Found " + imagePaths->Length + " matches";
 		}
-	}
-private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-	CropForm^ cropForm = gcnew CropForm();
-	cropForm->ShowDialog();
-}
-private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-	GalleryForm^ galleryForm = gcnew GalleryForm();
-	galleryForm->ShowDialog();
-}
-};
+
+	private: 
+		System::Void btnSearchPerson_Click(System::Object^ sender, System::EventArgs^ e);
+
+	private: 
+		System::Void btnManageGallery_Click(System::Object^ sender, System::EventArgs^ e);
+	};
 }

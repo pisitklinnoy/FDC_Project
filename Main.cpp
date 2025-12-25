@@ -9,4 +9,4 @@ int Main(array<System::String^>^ args)
 	// Create the main window and run it
 	Application::Run(gcnew MyForm());
 	return 0;
-}
+} 

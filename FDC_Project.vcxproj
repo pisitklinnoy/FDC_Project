@@ -131,6 +131,8 @@
     <ClInclude Include="CropForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="FaceDetectionWrapper.h" />
+    <ClInclude Include="FaceDetector.h" />
     <ClInclude Include="GalleryForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -148,6 +150,9 @@
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
