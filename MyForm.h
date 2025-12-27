@@ -317,7 +317,7 @@ namespace FDCProject {
 			this->btnSearchPerson->Name = L"btnSearchPerson";
 			this->btnSearchPerson->Size = System::Drawing::Size(180, 45);
 			this->btnSearchPerson->TabIndex = 7;
-			this->btnSearchPerson->Text = L"[IDENTIFY TARGET]";
+			this->btnSearchPerson->Text = L"[SEARCH]";
 			this->btnSearchPerson->UseVisualStyleBackColor = false;
 			this->btnSearchPerson->Click += gcnew System::EventHandler(this, &MyForm::btnSearchPerson_Click);
 			this->btnSearchPerson->MouseEnter += gcnew System::EventHandler(this, &MyForm::Button_MouseEnter);
