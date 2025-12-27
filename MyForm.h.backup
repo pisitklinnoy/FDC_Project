@@ -1,6 +1,6 @@
-﻿#pragma once
+#pragma once
 
-namespace FDCProject { 
+namespace FDCProject {
 	ref class CropForm;
 	ref class GalleryForm;
 }
@@ -21,7 +21,8 @@ namespace FDCProject {
 		MyForm(void)
 		{
 			InitializeComponent();
-			ApplyTheme();
+			// Initialize theme colors
+			this->BackColor = Color::FromArgb(15, 15, 20);
 
 			// Start recording blink timer
 			recTimer = gcnew System::Windows::Forms::Timer();
@@ -124,11 +125,11 @@ namespace FDCProject {
 			// 
 			this->lblTitle->AutoSize = true;
 			this->lblTitle->Font = (gcnew System::Drawing::Font(L"Consolas", 18, System::Drawing::FontStyle::Bold));
-			this->lblTitle->Location = System::Drawing::Point(180, 15);
+			this->lblTitle->Location = System::Drawing::Point(210, 15);
 			this->lblTitle->Name = L"lblTitle";
-			this->lblTitle->Size = System::Drawing::Size(447, 36);
+			this->lblTitle->Size = System::Drawing::Size(479, 36);
 			this->lblTitle->TabIndex = 0;
-			this->lblTitle->Text = L"╔══ SURVEILLANCE SYSTEM ══╗";
+			this->lblTitle->Text = L"\?\?\?\? SURVEILLANCE SYSTEM \?\?\?\?";
 			// 
 			// lblStatus
 			// 
@@ -148,13 +149,13 @@ namespace FDCProject {
 			this->lblRecording->Name = L"lblRecording";
 			this->lblRecording->Size = System::Drawing::Size(54, 20);
 			this->lblRecording->TabIndex = 7;
-			this->lblRecording->Text = L"● REC";
+			this->lblRecording->Text = L"\? REC";
 			// 
 			// lblTimestamp
 			// 
 			this->lblTimestamp->AutoSize = true;
 			this->lblTimestamp->Font = (gcnew System::Drawing::Font(L"Consolas", 9));
-			this->lblTimestamp->Location = System::Drawing::Point(520, 52);
+			this->lblTimestamp->Location = System::Drawing::Point(710, 52);
 			this->lblTimestamp->Name = L"lblTimestamp";
 			this->lblTimestamp->Size = System::Drawing::Size(160, 18);
 			this->lblTimestamp->TabIndex = 8;
@@ -167,18 +168,18 @@ namespace FDCProject {
 			this->groupBoxTarget->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
 			this->groupBoxTarget->Location = System::Drawing::Point(30, 110);
 			this->groupBoxTarget->Name = L"groupBoxTarget";
-			this->groupBoxTarget->Size = System::Drawing::Size(200, 280);
+			this->groupBoxTarget->Size = System::Drawing::Size(180, 280);
 			this->groupBoxTarget->TabIndex = 2;
 			this->groupBoxTarget->TabStop = false;
-			this->groupBoxTarget->Text = L"[TARGET]";
+			this->groupBoxTarget->Text = L"[SELECTED TARGET]";
 			// 
 			// lblTargetInfo
 			// 
 			this->lblTargetInfo->AutoSize = true;
-			this->lblTargetInfo->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Bold));
-			this->lblTargetInfo->Location = System::Drawing::Point(40, 245);
+			this->lblTargetInfo->Font = (gcnew System::Drawing::Font(L"Consolas", 8, System::Drawing::FontStyle::Bold));
+			this->lblTargetInfo->Location = System::Drawing::Point(30, 220);
 			this->lblTargetInfo->Name = L"lblTargetInfo";
-			this->lblTargetInfo->Size = System::Drawing::Size(80, 18);
+			this->lblTargetInfo->Size = System::Drawing::Size(80, 17);
 			this->lblTargetInfo->TabIndex = 1;
 			this->lblTargetInfo->Text = L"NO TARGET";
 			// 
@@ -186,9 +187,9 @@ namespace FDCProject {
 			// 
 			this->pictureBoxTarget->BackColor = System::Drawing::Color::Black;
 			this->pictureBoxTarget->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->pictureBoxTarget->Location = System::Drawing::Point(25, 30);
+			this->pictureBoxTarget->Location = System::Drawing::Point(15, 30);
 			this->pictureBoxTarget->Name = L"pictureBoxTarget";
-			this->pictureBoxTarget->Size = System::Drawing::Size(150, 200);
+			this->pictureBoxTarget->Size = System::Drawing::Size(150, 180);
 			this->pictureBoxTarget->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBoxTarget->TabIndex = 0;
 			this->pictureBoxTarget->TabStop = false;
@@ -198,10 +199,10 @@ namespace FDCProject {
 			this->groupBox1->Controls->Add(this->lblScore1);
 			this->groupBox1->Controls->Add(this->pictureBox1);
 			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
-			this->groupBox1->Location = System::Drawing::Point(260, 110);
+			this->groupBox1->Location = System::Drawing::Point(240, 110);
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Size = System::Drawing::Size(200, 280);
-			this->groupBox1->TabIndex = 2;
+			this->groupBox1->TabIndex = 3;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"[MATCH #1]";
 			// 
@@ -231,10 +232,10 @@ namespace FDCProject {
 			this->groupBox2->Controls->Add(this->lblScore2);
 			this->groupBox2->Controls->Add(this->pictureBox2);
 			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
-			this->groupBox2->Location = System::Drawing::Point(490, 110);
+			this->groupBox2->Location = System::Drawing::Point(460, 110);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->Size = System::Drawing::Size(200, 280);
-			this->groupBox2->TabIndex = 3;
+			this->groupBox2->TabIndex = 4;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"[MATCH #2]";
 			// 
@@ -264,10 +265,10 @@ namespace FDCProject {
 			this->groupBox3->Controls->Add(this->lblScore3);
 			this->groupBox3->Controls->Add(this->pictureBox3);
 			this->groupBox3->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
-			this->groupBox3->Location = System::Drawing::Point(720, 110);
+			this->groupBox3->Location = System::Drawing::Point(680, 110);
 			this->groupBox3->Name = L"groupBox3";
 			this->groupBox3->Size = System::Drawing::Size(200, 280);
-			this->groupBox3->TabIndex = 4;
+			this->groupBox3->TabIndex = 5;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"[MATCH #3]";
 			// 
@@ -297,7 +298,7 @@ namespace FDCProject {
 			this->btnSelectTarget->FlatAppearance->BorderSize = 2;
 			this->btnSelectTarget->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnSelectTarget->Font = (gcnew System::Drawing::Font(L"Consolas", 11, System::Drawing::FontStyle::Bold));
-			this->btnSelectTarget->Location = System::Drawing::Point(162, 420);
+			this->btnSelectTarget->Location = System::Drawing::Point(240, 410);
 			this->btnSelectTarget->Name = L"btnSelectTarget";
 			this->btnSelectTarget->Size = System::Drawing::Size(180, 45);
 			this->btnSelectTarget->TabIndex = 6;
@@ -313,7 +314,7 @@ namespace FDCProject {
 			this->btnSearchPerson->FlatAppearance->BorderSize = 2;
 			this->btnSearchPerson->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnSearchPerson->Font = (gcnew System::Drawing::Font(L"Consolas", 11, System::Drawing::FontStyle::Bold));
-			this->btnSearchPerson->Location = System::Drawing::Point(391, 420);
+			this->btnSearchPerson->Location = System::Drawing::Point(440, 410);
 			this->btnSearchPerson->Name = L"btnSearchPerson";
 			this->btnSearchPerson->Size = System::Drawing::Size(180, 45);
 			this->btnSearchPerson->TabIndex = 7;
@@ -328,7 +329,7 @@ namespace FDCProject {
 			this->btnManageGallery->FlatAppearance->BorderSize = 2;
 			this->btnManageGallery->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnManageGallery->Font = (gcnew System::Drawing::Font(L"Consolas", 11, System::Drawing::FontStyle::Bold));
-			this->btnManageGallery->Location = System::Drawing::Point(613, 420);
+			this->btnManageGallery->Location = System::Drawing::Point(640, 410);
 			this->btnManageGallery->Name = L"btnManageGallery";
 			this->btnManageGallery->Size = System::Drawing::Size(180, 45);
 			this->btnManageGallery->TabIndex = 8;
@@ -342,7 +343,7 @@ namespace FDCProject {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(960, 490);
+			this->ClientSize = System::Drawing::Size(910, 480);
 			this->Controls->Add(this->lblTimestamp);
 			this->Controls->Add(this->lblRecording);
 			this->Controls->Add(this->btnManageGallery);
@@ -375,41 +376,6 @@ namespace FDCProject {
 #pragma endregion
 
 	private:
-		void ApplyTheme()
-		{
-			// Form theme
-			this->BackColor = Color::FromArgb(15, 15, 20);
-
-			// Labels
-			lblTitle->ForeColor = Color::FromArgb(0, 255, 0);
-			lblStatus->ForeColor = Color::FromArgb(100, 255, 100);
-			lblRecording->ForeColor = Color::FromArgb(255, 0, 0);
-			lblTimestamp->ForeColor = Color::FromArgb(100, 255, 100);
-			lblTargetInfo->ForeColor = Color::FromArgb(255, 200, 0);
-			lblScore1->ForeColor = Color::FromArgb(255, 200, 0);
-			lblScore2->ForeColor = Color::FromArgb(255, 200, 0);
-			lblScore3->ForeColor = Color::FromArgb(255, 200, 0);
-
-			// GroupBoxes
-			groupBoxTarget->ForeColor = Color::FromArgb(100, 255, 100);
-			groupBox1->ForeColor = Color::FromArgb(100, 255, 100);
-			groupBox2->ForeColor = Color::FromArgb(100, 255, 100);
-			groupBox3->ForeColor = Color::FromArgb(100, 255, 100);
-
-			// Buttons
-			btnSelectTarget->BackColor = Color::FromArgb(30, 30, 40);
-			btnSelectTarget->ForeColor = Color::FromArgb(100, 255, 100);
-			btnSelectTarget->FlatAppearance->BorderColor = Color::FromArgb(100, 255, 100);
-
-			btnSearchPerson->BackColor = Color::FromArgb(30, 30, 40);
-			btnSearchPerson->ForeColor = Color::FromArgb(100, 200, 255);
-			btnSearchPerson->FlatAppearance->BorderColor = Color::FromArgb(52, 152, 219);
-
-			btnManageGallery->BackColor = Color::FromArgb(30, 30, 40);
-			btnManageGallery->ForeColor = Color::FromArgb(200, 150, 255);
-			btnManageGallery->FlatAppearance->BorderColor = Color::FromArgb(155, 89, 182);
-		}
-
 		// Draw corner brackets on PictureBox
 		System::Void PictureBox_Paint(Object^ sender, PaintEventArgs^ e)
 		{
@@ -438,6 +404,36 @@ namespace FDCProject {
 			g->DrawLine(greenPen, w, h - cornerSize, w, h);
 
 			delete greenPen;
+		}
+
+		// Draw corner brackets on PictureBox for selected target
+		System::Void PictureBoxTarget_Paint(Object^ sender, PaintEventArgs^ e)
+		{
+			PictureBox^ pb = safe_cast<PictureBox^>(sender);
+			Graphics^ g = e->Graphics;
+			Pen^ orangePen = gcnew Pen(Color::FromArgb(255, 150, 0), 2);
+
+			int cornerSize = 15;
+			int w = pb->Width - 1;
+			int h = pb->Height - 1;
+
+			// Top-left corner
+			g->DrawLine(orangePen, 0, 0, cornerSize, 0);
+			g->DrawLine(orangePen, 0, 0, 0, cornerSize);
+
+			// Top-right corner
+			g->DrawLine(orangePen, w - cornerSize, 0, w, 0);
+			g->DrawLine(orangePen, w, 0, w, cornerSize);
+
+			// Bottom-left corner
+			g->DrawLine(orangePen, 0, h - cornerSize, 0, h);
+			g->DrawLine(orangePen, 0, h, cornerSize, h);
+
+			// Bottom-right corner
+			g->DrawLine(orangePen, w - cornerSize, h, w, h);
+			g->DrawLine(orangePen, w, h - cornerSize, w, h);
+
+			delete orangePen;
 		}
 
 		// Recording indicator blink
@@ -480,27 +476,27 @@ namespace FDCProject {
 			
 			if (targetPath != nullptr)
 			{
+				lblStatus->Text = "STATUS: TARGET SELECTED - READY TO IDENTIFY";
+				lblStatus->ForeColor = Color::FromArgb(100, 255, 100);
+
+				// Display selected target image
 				try
 				{
-					// Display selected target image
-					FileStream^ fs = gcnew FileStream(targetPath, FileMode::Open, FileAccess::Read);
-					if (pictureBoxTarget->Image != nullptr) delete pictureBoxTarget->Image;
-					pictureBoxTarget->Image = Image::FromStream(fs);
-					fs->Close();
-					delete fs;
-					pictureBoxTarget->Refresh();
-					
-					lblTargetInfo->Text = "TARGET LOCKED";
-					lblTargetInfo->ForeColor = Color::FromArgb(255, 200, 0);
+					if (File::Exists(targetPath))
+					{
+						FileStream^ fs = gcnew FileStream(targetPath, FileMode::Open, FileAccess::Read);
+						if (pictureBoxTarget->Image != nullptr) delete pictureBoxTarget->Image;
+						pictureBoxTarget->Image = Image::FromStream(fs);
+						fs->Close();
+						delete fs;
+						pictureBoxTarget->Refresh();
+						lblTargetInfo->Text = "LOCKED";
+					}
 				}
 				catch (Exception^)
 				{
-					lblTargetInfo->Text = "ERROR LOADING";
-					lblTargetInfo->ForeColor = Color::FromArgb(255, 0, 0);
+					lblTargetInfo->Text = "ERROR";
 				}
-				
-				lblStatus->Text = "STATUS: TARGET SELECTED - READY TO IDENTIFY";
-				lblStatus->ForeColor = Color::FromArgb(100, 255, 100);
 			}
 			else
 			{
@@ -508,9 +504,9 @@ namespace FDCProject {
 				{
 					delete pictureBoxTarget->Image;
 					pictureBoxTarget->Image = nullptr;
+					pictureBoxTarget->Refresh();
 				}
 				lblTargetInfo->Text = "NO TARGET";
-				lblTargetInfo->ForeColor = Color::FromArgb(255, 200, 0);
 			}
 		}
 

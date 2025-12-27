@@ -1,8 +1,11 @@
 #pragma once
-#include "FaceDetectionWrapper.h"
+
+// Forward declare instead of including FaceDetectionWrapper.h
+class FaceDetectionWrapper;
+
 #include <msclr/marshal_cppstd.h>
 #include <vector>
-#include <string>
+#include <string> 
 
 namespace FDCProject {
 
@@ -20,10 +23,9 @@ namespace FDCProject {
 		GalleryForm(void)
 		{
 			InitializeComponent();
-			faceDetector = new FaceDetectionWrapper();
+			ApplyTheme();
 
-			// Apply CCTV theme
-			this->BackColor = Color::FromArgb(15, 15, 20);
+			InitializeFaceDetector();
 
 			// Start timers
 			recTimer = gcnew System::Windows::Forms::Timer();
@@ -191,6 +193,27 @@ namespace FDCProject {
 #pragma endregion
 
 	private:
+		void ApplyTheme()
+		{
+			// Form theme
+			this->BackColor = Color::FromArgb(15, 15, 20);
+
+			// Labels
+			lblTitle->ForeColor = Color::FromArgb(0, 255, 0);
+			lblStatus->ForeColor = Color::FromArgb(100, 255, 100);
+			lblRecording->ForeColor = Color::FromArgb(255, 0, 0);
+			lblTimestamp->ForeColor = Color::FromArgb(100, 255, 100);
+			lblTotalFaces->ForeColor = Color::FromArgb(255, 200, 0);
+
+			// Button
+			btnUploadFullImage->BackColor = Color::FromArgb(30, 30, 40);
+			btnUploadFullImage->ForeColor = Color::FromArgb(100, 255, 150);
+			btnUploadFullImage->FlatAppearance->BorderColor = Color::FromArgb(39, 174, 96);
+
+			// FlowLayoutPanel
+			flowLayoutPanel1->BackColor = Color::FromArgb(20, 20, 25);
+		}
+
 		// Recording indicator blink
 		System::Void RecTimer_Tick(Object^ sender, EventArgs^ e)
 		{
@@ -221,188 +244,6 @@ namespace FDCProject {
 		{
 			Button^ btn = safe_cast<Button^>(sender);
 			btn->BackColor = Color::FromArgb(30, 30, 40);
-		}
-
-	private:
-		System::Void btnUploadFullImage_Click(System::Object^ sender, System::EventArgs^ e)
-		{
-			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			{
-				try
-				{
-					lblStatus->Text = "STATUS: PROCESSING IMAGE...";
-					lblStatus->ForeColor = Color::FromArgb(255, 255, 0);
-
-					msclr::interop::marshal_context context;
-					std::string imgPath = context.marshal_as<std::string>(openFileDialog1->FileName);
-
-					if (!faceDetector->LoadImageFile(imgPath))
-					{
-						MessageBox::Show("SYSTEM ERROR: CANNOT LOAD IMAGE", "ERROR",
-							MessageBoxButtons::OK, MessageBoxIcon::Error);
-						lblStatus->Text = "STATUS: ERROR - LOAD FAILED";
-						lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
-						return;
-					}
-
-					std::string cascadePath = "data\\haarcascades\\haarcascade_frontalface_default.xml";
-
-					int faceCount = faceDetector->DetectFaces(cascadePath);
-
-					if (faceCount == -1)
-					{
-						MessageBox::Show("SYSTEM ERROR: CANNOT LOAD CASCADE FILE", "ERROR",
-							MessageBoxButtons::OK, MessageBoxIcon::Error);
-						lblStatus->Text = "STATUS: ERROR - CASCADE FAILED";
-						lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
-						return;
-					}
-					else if (faceCount == 0)
-					{
-						MessageBox::Show("ALERT: NO TARGETS DETECTED IN IMAGE", "NO DETECTION",
-							MessageBoxButtons::OK, MessageBoxIcon::Warning);
-						lblStatus->Text = "STATUS: NO TARGETS FOUND";
-						lblStatus->ForeColor = Color::FromArgb(255, 150, 50);
-						return;
-					}
-
-					String^ galleryPath = "faces";
-					if (!Directory::Exists(galleryPath))
-					{
-						Directory::CreateDirectory(galleryPath);
-					}
-
-					// ????? Person ID ???????????????????
-					int maxPersonId = 0;
-					array<String^>^ existingFiles = Directory::GetFiles(galleryPath, "Person_*.jpg");
-					for each(String ^ file in existingFiles)
-					{
-						String^ fileName = Path::GetFileNameWithoutExtension(file);
-						array<String^>^ parts = fileName->Split('_');
-						if (parts->Length >= 2)
-						{
-							int personId;
-							if (Int32::TryParse(parts[1], personId))
-							{
-								if (personId > maxPersonId)
-									maxPersonId = personId;
-							}
-						}
-					}
-
-					int savedCount = 0;
-					for (int i = 0; i < faceCount; i++)
-					{
-						int newPersonId = maxPersonId + i + 1;
-						String^ faceFileName = galleryPath + "\\Person_" + newPersonId + ".jpg";
-
-						std::string faceFilePath = context.marshal_as<std::string>(faceFileName);
-
-						if (faceDetector->SaveFaceImage(i, faceFilePath))
-						{
-							savedCount++;
-						}
-					}
-
-					lblStatus->Text = "STATUS: " + savedCount + " RECORD(S) ADDED TO DATABASE";
-					lblStatus->ForeColor = Color::FromArgb(0, 255, 0);
-
-					MessageBox::Show("OPERATION COMPLETE: " + savedCount + " TARGET(S) SAVED TO DATABASE",
-						"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
-					LoadGalleryFaces();
-				}
-				catch (Exception^ ex)
-				{
-					MessageBox::Show("SYSTEM ERROR: " + ex->Message, "ERROR",
-						MessageBoxButtons::OK, MessageBoxIcon::Error);
-					lblStatus->Text = "STATUS: SYSTEM ERROR";
-					lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
-				}
-			}
-		}
-
-	private:
-		void LoadGalleryFaces()
-		{
-			flowLayoutPanel1->Controls->Clear();
-
-			String^ galleryPath = "faces";
-			if (!Directory::Exists(galleryPath))
-			{
-				Directory::CreateDirectory(galleryPath);
-				lblTotalFaces->Text = "RECORDS: 0";
-				lblStatus->Text = "STATUS: DATABASE EMPTY";
-				lblStatus->ForeColor = Color::FromArgb(255, 150, 50);
-				return;
-			}
-
-			array<String^>^ faceFiles = Directory::GetFiles(galleryPath, "*.jpg");
-			lblTotalFaces->Text = "RECORDS: " + faceFiles->Length;
-
-			if (faceFiles->Length > 0)
-			{
-				lblStatus->Text = "STATUS: DATABASE READY - " + faceFiles->Length + " RECORD(S)";
-				lblStatus->ForeColor = Color::FromArgb(0, 255, 0);
-			}
-
-			for each(String ^ filePath in faceFiles)
-			{
-				Panel^ facePanel = gcnew Panel();
-				facePanel->Size = System::Drawing::Size(140, 220);
-				facePanel->BackColor = Color::FromArgb(25, 25, 30);
-				facePanel->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-				facePanel->Margin = System::Windows::Forms::Padding(10);
-
-				PictureBox^ facePictureBox = gcnew PictureBox();
-				facePictureBox->Size = System::Drawing::Size(120, 120);
-				facePictureBox->Location = System::Drawing::Point(10, 10);
-				facePictureBox->BackColor = System::Drawing::Color::Black;
-				facePictureBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-
-				// ??????????????????? - ??? FileStream ??? Image::FromFile
-				try
-				{
-					FileStream^ fs = gcnew FileStream(filePath, FileMode::Open, FileAccess::Read);
-					facePictureBox->Image = Image::FromStream(fs);
-					fs->Close();
-					delete fs;
-				}
-				catch (Exception^ ex)
-				{
-					facePictureBox->Image = nullptr;
-				}
-
-				facePictureBox->Paint += gcnew PaintEventHandler(this, &GalleryForm::PictureBox_Paint);
-
-				Label^ faceLabel = gcnew Label();
-				faceLabel->Text = Path::GetFileNameWithoutExtension(filePath);
-				faceLabel->Location = System::Drawing::Point(5, 135);
-				faceLabel->Size = System::Drawing::Size(130, 40);
-				faceLabel->Font = (gcnew System::Drawing::Font(L"Consolas", 7, System::Drawing::FontStyle::Regular));
-				faceLabel->ForeColor = Color::FromArgb(100, 255, 100);
-				faceLabel->TextAlign = System::Drawing::ContentAlignment::TopCenter;
-
-				Button^ deleteButton = gcnew Button();
-				deleteButton->Text = L"[DELETE]";
-				deleteButton->Location = System::Drawing::Point(20, 180);
-				deleteButton->Size = System::Drawing::Size(100, 30);
-				deleteButton->BackColor = Color::FromArgb(30, 30, 40);
-				deleteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-				deleteButton->FlatAppearance->BorderColor = Color::FromArgb(255, 50, 50);
-				deleteButton->FlatAppearance->BorderSize = 2;
-				deleteButton->Font = (gcnew System::Drawing::Font(L"Consolas", 8, System::Drawing::FontStyle::Bold));
-				deleteButton->ForeColor = Color::FromArgb(255, 100, 100);
-				deleteButton->Tag = filePath;
-				deleteButton->Click += gcnew EventHandler(this, &GalleryForm::DeleteFace_Click);
-				deleteButton->MouseEnter += gcnew EventHandler(this, &GalleryForm::DeleteButton_MouseEnter);
-				deleteButton->MouseLeave += gcnew EventHandler(this, &GalleryForm::DeleteButton_MouseLeave);
-
-				facePanel->Controls->Add(facePictureBox);
-				facePanel->Controls->Add(faceLabel);
-				facePanel->Controls->Add(deleteButton);
-
-				flowLayoutPanel1->Controls->Add(facePanel);
-			}
 		}
 
 		// Draw corner brackets on PictureBox
@@ -463,7 +304,6 @@ namespace FDCProject {
 			{
 				try
 				{
-					// ??????????????????? - Dispose ????????????
 					Panel^ parentPanel = safe_cast<Panel^>(btn->Parent);
 					for each(Control ^ ctrl in parentPanel->Controls)
 					{
@@ -492,5 +332,12 @@ namespace FDCProject {
 				}
 			}
 		}
+
+	private:
+		System::Void btnUploadFullImage_Click(System::Object^ sender, System::EventArgs^ e);
+
+	private:
+		void InitializeFaceDetector();
+		void LoadGalleryFaces();
 	};
 }
