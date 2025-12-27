@@ -21,6 +21,22 @@ namespace FDCProject {
 		{
 			InitializeComponent();
 			faceDetector = new FaceDetectionWrapper();
+
+			// Apply CCTV theme
+			this->BackColor = Color::FromArgb(15, 15, 20);
+
+			// Start timers
+			recTimer = gcnew System::Windows::Forms::Timer();
+			recTimer->Interval = 500;
+			recTimer->Tick += gcnew EventHandler(this, &GalleryForm::RecTimer_Tick);
+			recTimer->Start();
+
+			timestampTimer = gcnew System::Windows::Forms::Timer();
+			timestampTimer->Interval = 1000;
+			timestampTimer->Tick += gcnew EventHandler(this, &GalleryForm::TimestampTimer_Tick);
+			timestampTimer->Start();
+			UpdateTimestamp();
+
 			LoadGalleryFaces();
 		}
 
@@ -35,15 +51,32 @@ namespace FDCProject {
 			{
 				delete faceDetector;
 			}
+			if (recTimer != nullptr)
+			{
+				recTimer->Stop();
+				delete recTimer;
+			}
+			if (timestampTimer != nullptr)
+			{
+				timestampTimer->Stop();
+				delete timestampTimer;
+			}
 		}
 
 	private: System::Windows::Forms::Button^ btnUploadFullImage;
 	private: System::Windows::Forms::Label^ lblTotalFaces;
+	private: System::Windows::Forms::Label^ lblTitle;
+	private: System::Windows::Forms::Label^ lblStatus;
+	private: System::Windows::Forms::Label^ lblRecording;
+	private: System::Windows::Forms::Label^ lblTimestamp;
 	private: System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	private: System::Windows::Forms::Timer^ recTimer;
+	private: System::Windows::Forms::Timer^ timestampTimer;
+	private: bool recBlinkState;
 
 	private:
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 		FaceDetectionWrapper* faceDetector;
 
 #pragma region Windows Form Designer generated code
@@ -51,71 +84,185 @@ namespace FDCProject {
 		{
 			this->btnUploadFullImage = (gcnew System::Windows::Forms::Button());
 			this->lblTotalFaces = (gcnew System::Windows::Forms::Label());
+			this->lblTitle = (gcnew System::Windows::Forms::Label());
+			this->lblStatus = (gcnew System::Windows::Forms::Label());
+			this->lblRecording = (gcnew System::Windows::Forms::Label());
+			this->lblTimestamp = (gcnew System::Windows::Forms::Label());
 			this->flowLayoutPanel1 = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->SuspendLayout();
-			this->btnUploadFullImage->Location = System::Drawing::Point(20, 20);
+
+			// lblTitle
+			this->lblTitle->AutoSize = true;
+			this->lblTitle->Font = (gcnew System::Drawing::Font(L"Consolas", 16, System::Drawing::FontStyle::Bold));
+			this->lblTitle->ForeColor = Color::FromArgb(0, 255, 0);
+			this->lblTitle->Location = System::Drawing::Point(180, 15);
+			this->lblTitle->Name = L"lblTitle";
+			this->lblTitle->Size = System::Drawing::Size(350, 26);
+			this->lblTitle->TabIndex = 4;
+			this->lblTitle->Text = L"???? DATABASE ARCHIVE ????";
+
+			// lblRecording
+			this->lblRecording->AutoSize = true;
+			this->lblRecording->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Bold));
+			this->lblRecording->ForeColor = Color::FromArgb(255, 0, 0);
+			this->lblRecording->Location = System::Drawing::Point(15, 50);
+			this->lblRecording->Name = L"lblRecording";
+			this->lblRecording->Size = System::Drawing::Size(70, 14);
+			this->lblRecording->TabIndex = 5;
+			this->lblRecording->Text = L"? REC";
+
+			// lblTimestamp
+			this->lblTimestamp->AutoSize = true;
+			this->lblTimestamp->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Regular));
+			this->lblTimestamp->ForeColor = Color::FromArgb(100, 255, 100);
+			this->lblTimestamp->Location = System::Drawing::Point(505, 52);
+			this->lblTimestamp->Name = L"lblTimestamp";
+			this->lblTimestamp->Size = System::Drawing::Size(180, 14);
+			this->lblTimestamp->TabIndex = 6;
+			this->lblTimestamp->Text = L"2025-01-01 00:00:00";
+
+			// lblStatus
+			this->lblStatus->AutoSize = true;
+			this->lblStatus->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Bold));
+			this->lblStatus->ForeColor = Color::FromArgb(100, 255, 100);
+			this->lblStatus->Location = System::Drawing::Point(15, 75);
+			this->lblStatus->Name = L"lblStatus";
+			this->lblStatus->Size = System::Drawing::Size(200, 14);
+			this->lblStatus->TabIndex = 7;
+			this->lblStatus->Text = L"STATUS: DATABASE READY";
+
+			// btnUploadFullImage
+			this->btnUploadFullImage->BackColor = Color::FromArgb(30, 30, 40);
+			this->btnUploadFullImage->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnUploadFullImage->FlatAppearance->BorderColor = Color::FromArgb(39, 174, 96);
+			this->btnUploadFullImage->FlatAppearance->BorderSize = 2;
+			this->btnUploadFullImage->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
+			this->btnUploadFullImage->ForeColor = Color::FromArgb(100, 255, 150);
+			this->btnUploadFullImage->Location = System::Drawing::Point(20, 100);
 			this->btnUploadFullImage->Name = L"btnUploadFullImage";
-			this->btnUploadFullImage->Size = System::Drawing::Size(160, 40);
+			this->btnUploadFullImage->Size = System::Drawing::Size(180, 40);
 			this->btnUploadFullImage->TabIndex = 0;
-			this->btnUploadFullImage->Text = L"Upload Full Image";
-			this->btnUploadFullImage->UseVisualStyleBackColor = true;
+			this->btnUploadFullImage->Text = L"[ADD TO DATABASE]";
+			this->btnUploadFullImage->UseVisualStyleBackColor = false;
 			this->btnUploadFullImage->Click += gcnew System::EventHandler(this, &GalleryForm::btnUploadFullImage_Click);
+			this->btnUploadFullImage->MouseEnter += gcnew System::EventHandler(this, &GalleryForm::Button_MouseEnter);
+			this->btnUploadFullImage->MouseLeave += gcnew System::EventHandler(this, &GalleryForm::Button_MouseLeave);
+
+			// lblTotalFaces
 			this->lblTotalFaces->AutoSize = true;
-			this->lblTotalFaces->Location = System::Drawing::Point(220, 32);
+			this->lblTotalFaces->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
+			this->lblTotalFaces->ForeColor = Color::FromArgb(255, 200, 0);
+			this->lblTotalFaces->Location = System::Drawing::Point(230, 113);
 			this->lblTotalFaces->Name = L"lblTotalFaces";
-			this->lblTotalFaces->Size = System::Drawing::Size(144, 16);
+			this->lblTotalFaces->Size = System::Drawing::Size(200, 17);
 			this->lblTotalFaces->TabIndex = 1;
-			this->lblTotalFaces->Text = L"Total faces in gallery: 0";
+			this->lblTotalFaces->Text = L"RECORDS: 0";
+
+			// flowLayoutPanel1
 			this->flowLayoutPanel1->AutoScroll = true;
+			this->flowLayoutPanel1->BackColor = Color::FromArgb(20, 20, 25);
 			this->flowLayoutPanel1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->flowLayoutPanel1->Location = System::Drawing::Point(20, 80);
+			this->flowLayoutPanel1->Location = System::Drawing::Point(20, 160);
 			this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
-			this->flowLayoutPanel1->Size = System::Drawing::Size(660, 480);
+			this->flowLayoutPanel1->Size = System::Drawing::Size(660, 400);
 			this->flowLayoutPanel1->TabIndex = 2;
+
+			// openFileDialog1
 			this->openFileDialog1->Filter = L"Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+			// GalleryForm
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = Color::FromArgb(15, 15, 20);
 			this->ClientSize = System::Drawing::Size(700, 580);
+			this->Controls->Add(this->lblTimestamp);
+			this->Controls->Add(this->lblRecording);
+			this->Controls->Add(this->lblStatus);
+			this->Controls->Add(this->lblTitle);
 			this->Controls->Add(this->btnUploadFullImage);
 			this->Controls->Add(this->flowLayoutPanel1);
 			this->Controls->Add(this->lblTotalFaces);
 			this->Name = L"GalleryForm";
-			this->Text = L"Gallery - Face Database";
+			this->Text = L"SURVEILLANCE - DATABASE ARCHIVE";
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
 		}
 #pragma endregion
 
-	private: 
-		System::Void btnUploadFullImage_Click(System::Object^ sender, System::EventArgs^ e) 
+	private:
+		// Recording indicator blink
+		System::Void RecTimer_Tick(Object^ sender, EventArgs^ e)
+		{
+			recBlinkState = !recBlinkState;
+			lblRecording->Visible = recBlinkState;
+		}
+
+		// Update timestamp
+		System::Void TimestampTimer_Tick(Object^ sender, EventArgs^ e)
+		{
+			UpdateTimestamp();
+		}
+
+		void UpdateTimestamp()
+		{
+			DateTime now = DateTime::Now;
+			lblTimestamp->Text = now.ToString("yyyy-MM-dd HH:mm:ss");
+		}
+
+		// Button hover effects
+		System::Void Button_MouseEnter(Object^ sender, EventArgs^ e)
+		{
+			Button^ btn = safe_cast<Button^>(sender);
+			btn->BackColor = Color::FromArgb(45, 45, 55);
+		}
+
+		System::Void Button_MouseLeave(Object^ sender, EventArgs^ e)
+		{
+			Button^ btn = safe_cast<Button^>(sender);
+			btn->BackColor = Color::FromArgb(30, 30, 40);
+		}
+
+	private:
+		System::Void btnUploadFullImage_Click(System::Object^ sender, System::EventArgs^ e)
 		{
 			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 			{
 				try
 				{
+					lblStatus->Text = "STATUS: PROCESSING IMAGE...";
+					lblStatus->ForeColor = Color::FromArgb(255, 255, 0);
+
 					msclr::interop::marshal_context context;
 					std::string imgPath = context.marshal_as<std::string>(openFileDialog1->FileName);
-					
+
 					if (!faceDetector->LoadImageFile(imgPath))
 					{
-						MessageBox::Show("Cannot load image");
+						MessageBox::Show("SYSTEM ERROR: CANNOT LOAD IMAGE", "ERROR",
+							MessageBoxButtons::OK, MessageBoxIcon::Error);
+						lblStatus->Text = "STATUS: ERROR - LOAD FAILED";
+						lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
 						return;
 					}
 
 					std::string cascadePath = "data\\haarcascades\\haarcascade_frontalface_default.xml";
-					
+
 					int faceCount = faceDetector->DetectFaces(cascadePath);
 
 					if (faceCount == -1)
 					{
-						MessageBox::Show("Cannot load Haar Cascade file");
+						MessageBox::Show("SYSTEM ERROR: CANNOT LOAD CASCADE FILE", "ERROR",
+							MessageBoxButtons::OK, MessageBoxIcon::Error);
+						lblStatus->Text = "STATUS: ERROR - CASCADE FAILED";
+						lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
 						return;
 					}
 					else if (faceCount == 0)
 					{
-						MessageBox::Show("No faces detected in image");
+						MessageBox::Show("ALERT: NO TARGETS DETECTED IN IMAGE", "NO DETECTION",
+							MessageBoxButtons::OK, MessageBoxIcon::Warning);
+						lblStatus->Text = "STATUS: NO TARGETS FOUND";
+						lblStatus->ForeColor = Color::FromArgb(255, 150, 50);
 						return;
 					}
 
@@ -128,23 +275,30 @@ namespace FDCProject {
 					int savedCount = 0;
 					for (int i = 0; i < faceCount; i++)
 					{
-						String^ faceFileName = galleryPath + "\\Person_" + 
+						String^ faceFileName = galleryPath + "\\Person_" +
 							DateTime::Now.Ticks.ToString() + "_" + i + ".jpg";
-						
+
 						std::string faceFilePath = context.marshal_as<std::string>(faceFileName);
-						
+
 						if (faceDetector->SaveFaceImage(i, faceFilePath))
 						{
 							savedCount++;
 						}
 					}
 
-					MessageBox::Show("Detected and saved " + savedCount + " face(s)");
+					lblStatus->Text = "STATUS: " + savedCount + " RECORD(S) ADDED TO DATABASE";
+					lblStatus->ForeColor = Color::FromArgb(0, 255, 0);
+
+					MessageBox::Show("OPERATION COMPLETE: " + savedCount + " TARGET(S) SAVED TO DATABASE",
+						"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
 					LoadGalleryFaces();
 				}
 				catch (Exception^ ex)
 				{
-					MessageBox::Show("Error: " + ex->Message);
+					MessageBox::Show("SYSTEM ERROR: " + ex->Message, "ERROR",
+						MessageBoxButtons::OK, MessageBoxIcon::Error);
+					lblStatus->Text = "STATUS: SYSTEM ERROR";
+					lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
 				}
 			}
 		}
@@ -158,37 +312,59 @@ namespace FDCProject {
 			if (!Directory::Exists(galleryPath))
 			{
 				Directory::CreateDirectory(galleryPath);
-				lblTotalFaces->Text = "Total faces in gallery: 0";
+				lblTotalFaces->Text = "RECORDS: 0";
+				lblStatus->Text = "STATUS: DATABASE EMPTY";
+				lblStatus->ForeColor = Color::FromArgb(255, 150, 50);
 				return;
 			}
 
 			array<String^>^ faceFiles = Directory::GetFiles(galleryPath, "*.jpg");
-			lblTotalFaces->Text = "Total faces in gallery: " + faceFiles->Length;
+			lblTotalFaces->Text = "RECORDS: " + faceFiles->Length;
 
-			for each (String^ filePath in faceFiles)
+			if (faceFiles->Length > 0)
+			{
+				lblStatus->Text = "STATUS: DATABASE READY - " + faceFiles->Length + " RECORD(S)";
+				lblStatus->ForeColor = Color::FromArgb(0, 255, 0);
+			}
+
+			for each (String ^ filePath in faceFiles)
 			{
 				Panel^ facePanel = gcnew Panel();
-				facePanel->Size = System::Drawing::Size(140, 200);
+				facePanel->Size = System::Drawing::Size(140, 220);
+				facePanel->BackColor = Color::FromArgb(25, 25, 30);
 				facePanel->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 				facePanel->Margin = System::Windows::Forms::Padding(10);
 
 				PictureBox^ facePictureBox = gcnew PictureBox();
 				facePictureBox->Size = System::Drawing::Size(120, 120);
 				facePictureBox->Location = System::Drawing::Point(10, 10);
+				facePictureBox->BackColor = System::Drawing::Color::Black;
 				facePictureBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 				facePictureBox->Image = Image::FromFile(filePath);
+				facePictureBox->Paint += gcnew PaintEventHandler(this, &GalleryForm::PictureBox_Paint);
 
 				Label^ faceLabel = gcnew Label();
 				faceLabel->Text = Path::GetFileNameWithoutExtension(filePath);
-				faceLabel->Location = System::Drawing::Point(10, 135);
-				faceLabel->Size = System::Drawing::Size(120, 20);
+				faceLabel->Location = System::Drawing::Point(5, 135);
+				faceLabel->Size = System::Drawing::Size(130, 40);
+				faceLabel->Font = (gcnew System::Drawing::Font(L"Consolas", 7, System::Drawing::FontStyle::Regular));
+				faceLabel->ForeColor = Color::FromArgb(100, 255, 100);
+				faceLabel->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 
 				Button^ deleteButton = gcnew Button();
-				deleteButton->Text = "Delete";
-				deleteButton->Location = System::Drawing::Point(30, 160);
-				deleteButton->Size = System::Drawing::Size(80, 30);
+				deleteButton->Text = L"[DELETE]";
+				deleteButton->Location = System::Drawing::Point(20, 180);
+				deleteButton->Size = System::Drawing::Size(100, 30);
+				deleteButton->BackColor = Color::FromArgb(30, 30, 40);
+				deleteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+				deleteButton->FlatAppearance->BorderColor = Color::FromArgb(255, 50, 50);
+				deleteButton->FlatAppearance->BorderSize = 2;
+				deleteButton->Font = (gcnew System::Drawing::Font(L"Consolas", 8, System::Drawing::FontStyle::Bold));
+				deleteButton->ForeColor = Color::FromArgb(255, 100, 100);
 				deleteButton->Tag = filePath;
 				deleteButton->Click += gcnew EventHandler(this, &GalleryForm::DeleteFace_Click);
+				deleteButton->MouseEnter += gcnew EventHandler(this, &GalleryForm::DeleteButton_MouseEnter);
+				deleteButton->MouseLeave += gcnew EventHandler(this, &GalleryForm::DeleteButton_MouseLeave);
 
 				facePanel->Controls->Add(facePictureBox);
 				facePanel->Controls->Add(faceLabel);
@@ -198,24 +374,75 @@ namespace FDCProject {
 			}
 		}
 
+		// Draw corner brackets on PictureBox
+		System::Void PictureBox_Paint(Object^ sender, PaintEventArgs^ e)
+		{
+			PictureBox^ pb = safe_cast<PictureBox^>(sender);
+			Graphics^ g = e->Graphics;
+			Pen^ greenPen = gcnew Pen(Color::FromArgb(0, 255, 0), 2);
+
+			int cornerSize = 12;
+			int w = pb->Width - 1;
+			int h = pb->Height - 1;
+
+			// Top-left corner
+			g->DrawLine(greenPen, 0, 0, cornerSize, 0);
+			g->DrawLine(greenPen, 0, 0, 0, cornerSize);
+
+			// Top-right corner
+			g->DrawLine(greenPen, w - cornerSize, 0, w, 0);
+			g->DrawLine(greenPen, w, 0, w, cornerSize);
+
+			// Bottom-left corner
+			g->DrawLine(greenPen, 0, h - cornerSize, 0, h);
+			g->DrawLine(greenPen, 0, h, cornerSize, h);
+
+			// Bottom-right corner
+			g->DrawLine(greenPen, w - cornerSize, h, w, h);
+			g->DrawLine(greenPen, w, h - cornerSize, w, h);
+
+			delete greenPen;
+		}
+
+		// Delete button hover effects
+		System::Void DeleteButton_MouseEnter(Object^ sender, EventArgs^ e)
+		{
+			Button^ btn = safe_cast<Button^>(sender);
+			btn->BackColor = Color::FromArgb(60, 20, 20);
+		}
+
+		System::Void DeleteButton_MouseLeave(Object^ sender, EventArgs^ e)
+		{
+			Button^ btn = safe_cast<Button^>(sender);
+			btn->BackColor = Color::FromArgb(30, 30, 40);
+		}
+
 		void DeleteFace_Click(Object^ sender, EventArgs^ e)
 		{
 			Button^ btn = safe_cast<Button^>(sender);
 			String^ filePath = safe_cast<String^>(btn->Tag);
 
-			auto result = MessageBox::Show("Delete this face?", "Confirm", 
-				MessageBoxButtons::YesNo, MessageBoxIcon::Question);
+			auto result = MessageBox::Show(
+				"CONFIRM: DELETE THIS RECORD FROM DATABASE?",
+				"SECURITY CONFIRMATION",
+				MessageBoxButtons::YesNo,
+				MessageBoxIcon::Warning);
 
 			if (result == System::Windows::Forms::DialogResult::Yes)
 			{
 				try
 				{
 					File::Delete(filePath);
+					lblStatus->Text = "STATUS: RECORD DELETED";
+					lblStatus->ForeColor = Color::FromArgb(255, 150, 50);
 					LoadGalleryFaces();
 				}
 				catch (Exception^ ex)
 				{
-					MessageBox::Show("Error deleting file: " + ex->Message);
+					MessageBox::Show("SYSTEM ERROR: CANNOT DELETE FILE - " + ex->Message,
+						"ERROR", MessageBoxButtons::OK, MessageBoxIcon::Error);
+					lblStatus->Text = "STATUS: DELETE FAILED";
+					lblStatus->ForeColor = Color::FromArgb(255, 0, 0);
 				}
 			}
 		}
