@@ -410,36 +410,6 @@ namespace FDCProject {
 			btnManageGallery->FlatAppearance->BorderColor = Color::FromArgb(155, 89, 182);
 		}
 
-		// Draw corner brackets on PictureBox
-		System::Void PictureBox_Paint(Object^ sender, PaintEventArgs^ e)
-		{
-			PictureBox^ pb = safe_cast<PictureBox^>(sender);
-			Graphics^ g = e->Graphics;
-			Pen^ greenPen = gcnew Pen(Color::FromArgb(0, 255, 0), 2);
-
-			int cornerSize = 15;
-			int w = pb->Width - 1;
-			int h = pb->Height - 1;
-
-			// Top-left corner
-			g->DrawLine(greenPen, 0, 0, cornerSize, 0);
-			g->DrawLine(greenPen, 0, 0, 0, cornerSize);
-
-			// Top-right corner
-			g->DrawLine(greenPen, w - cornerSize, 0, w, 0);
-			g->DrawLine(greenPen, w, 0, w, cornerSize);
-
-			// Bottom-left corner
-			g->DrawLine(greenPen, 0, h - cornerSize, 0, h);
-			g->DrawLine(greenPen, 0, h, cornerSize, h);
-
-			// Bottom-right corner
-			g->DrawLine(greenPen, w - cornerSize, h, w, h);
-			g->DrawLine(greenPen, w, h - cornerSize, w, h);
-
-			delete greenPen;
-		}
-
 		// Recording indicator blink
 		System::Void RecTimer_Tick(Object^ sender, EventArgs^ e)
 		{

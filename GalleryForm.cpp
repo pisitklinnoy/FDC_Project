@@ -158,8 +158,6 @@ void GalleryForm::LoadGalleryFaces()
 			facePictureBox->Image = nullptr;
 		}
 
-		facePictureBox->Paint += gcnew PaintEventHandler(this, &GalleryForm::PictureBox_Paint);
-
 		Label^ faceLabel = gcnew Label();
 		faceLabel->Text = Path::GetFileNameWithoutExtension(filePath);
 		faceLabel->Location = System::Drawing::Point(5, 135);

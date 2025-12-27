@@ -246,36 +246,6 @@ namespace FDCProject {
 			btn->BackColor = Color::FromArgb(30, 30, 40);
 		}
 
-		// Draw corner brackets on PictureBox
-		System::Void PictureBox_Paint(Object^ sender, PaintEventArgs^ e)
-		{
-			PictureBox^ pb = safe_cast<PictureBox^>(sender);
-			Graphics^ g = e->Graphics;
-			Pen^ greenPen = gcnew Pen(Color::FromArgb(0, 255, 0), 2);
-
-			int cornerSize = 12;
-			int w = pb->Width - 1;
-			int h = pb->Height - 1;
-
-			// Top-left corner
-			g->DrawLine(greenPen, 0, 0, cornerSize, 0);
-			g->DrawLine(greenPen, 0, 0, 0, cornerSize);
-
-			// Top-right corner
-			g->DrawLine(greenPen, w - cornerSize, 0, w, 0);
-			g->DrawLine(greenPen, w, 0, w, cornerSize);
-
-			// Bottom-left corner
-			g->DrawLine(greenPen, 0, h - cornerSize, 0, h);
-			g->DrawLine(greenPen, 0, h, cornerSize, h);
-
-			// Bottom-right corner
-			g->DrawLine(greenPen, w - cornerSize, h, w, h);
-			g->DrawLine(greenPen, w, h - cornerSize, w, h);
-
-			delete greenPen;
-		}
-
 		// Delete button hover effects
 		System::Void DeleteButton_MouseEnter(Object^ sender, EventArgs^ e)
 		{

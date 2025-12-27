@@ -150,7 +150,6 @@ namespace FDCProject {
 				this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 				this->pictureBox1->TabIndex = 0;
 				this->pictureBox1->TabStop = false;
-				this->pictureBox1->Paint += gcnew PaintEventHandler(this, &CropForm::PictureBox_Paint);
 				this->btnUpload->BackColor = Color::FromArgb(30, 30, 40);
 				this->btnUpload->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 				this->btnUpload->FlatAppearance->BorderColor = Color::FromArgb(155, 89, 182);
@@ -169,95 +168,95 @@ namespace FDCProject {
 				this->btnDetect->BackColor = Color::FromArgb(30, 30, 40);
 				this->btnDetect->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 				this->btnDetect->FlatAppearance->BorderColor = Color::FromArgb(52, 152, 219);
-			 this->btnDetect->FlatAppearance->BorderSize = 2;
+				this->btnDetect->FlatAppearance->BorderSize = 2;
 				this->btnDetect->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Bold));
 				this->btnDetect->ForeColor = Color::FromArgb(100, 200, 255);
 				this->btnDetect->Location = System::Drawing::Point(170, 495);
-			 this->btnDetect->Name = L"btnDetect";
-			 this->btnDetect->Size = System::Drawing::Size(100, 35);
-			 this->btnDetect->TabIndex = 2;
-			 this->btnDetect->Text = L"[SCAN]";
-			 this->btnDetect->UseVisualStyleBackColor = false;
-			 this->btnDetect->Click += gcnew System::EventHandler(this, &CropForm::btnDetect_Click);
-			 this->btnDetect->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
-			 this->btnDetect->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
-			 this->btnPrev->BackColor = Color::FromArgb(30, 30, 40);
-			 this->btnPrev->Enabled = false;
-			 this->btnPrev->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			 this->btnPrev->FlatAppearance->BorderColor = Color::FromArgb(100, 255, 100);
-			 this->btnPrev->FlatAppearance->BorderSize = 2;
-			 this->btnPrev->Font = (gcnew System::Drawing::Font(L"Consolas", 12, System::Drawing::FontStyle::Bold));
-			 this->btnPrev->ForeColor = Color::FromArgb(100, 255, 100);
-			 this->btnPrev->Location = System::Drawing::Point(290, 495);
-			 this->btnPrev->Name = L"btnPrev";
-			 this->btnPrev->Size = System::Drawing::Size(50, 35);
-			 this->btnPrev->TabIndex = 3;
-			 this->btnPrev->Text = L"◄";
-			 this->btnPrev->UseVisualStyleBackColor = false;
-			 this->btnPrev->Click += gcnew System::EventHandler(this, &CropForm::btnPrev_Click);
-			 this->btnPrev->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
-			 this->btnPrev->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
-			 this->btnNext->BackColor = Color::FromArgb(30, 30, 40);
-			 this->btnNext->Enabled = false;
-			 this->btnNext->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			 this->btnNext->FlatAppearance->BorderColor = Color::FromArgb(100, 255, 100);
-			 this->btnNext->FlatAppearance->BorderSize = 2;
-			 this->btnNext->Font = (gcnew System::Drawing::Font(L"Consolas", 12, System::Drawing::FontStyle::Bold));
-			 this->btnNext->ForeColor = Color::FromArgb(100, 255, 100);
-			 this->btnNext->Location = System::Drawing::Point(360, 495);
-			 this->btnNext->Name = L"btnNext";
-			 this->btnNext->Size = System::Drawing::Size(50, 35);
-			 this->btnNext->TabIndex = 4;
-			 this->btnNext->Text = L"►";
-			 this->btnNext->UseVisualStyleBackColor = false;
-			 this->btnNext->Click += gcnew System::EventHandler(this, &CropForm::btnNext_Click);
-			 this->btnNext->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
-			 this->btnNext->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
-			 this->btnSearch->BackColor = Color::FromArgb(30, 30, 40);
-			 this->btnSearch->Enabled = false;
-			 this->btnSearch->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			 this->btnSearch->FlatAppearance->BorderColor = Color::FromArgb(255, 50, 50);
-			 this->btnSearch->FlatAppearance->BorderSize = 2;
-			 this->btnSearch->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Bold));
-			 this->btnSearch->ForeColor = Color::FromArgb(255, 100, 100);
-			 this->btnSearch->Location = System::Drawing::Point(430, 495);
-			 this->btnSearch->Name = L"btnSearch";
-			 this->btnSearch->Size = System::Drawing::Size(120, 35);
-			 this->btnSearch->TabIndex = 5;
-			 this->btnSearch->Text = L"[SELECT]";
-			 this->btnSearch->UseVisualStyleBackColor = false;
-			 this->btnSearch->Click += gcnew System::EventHandler(this, &CropForm::btnSearch_Click);
-			 this->btnSearch->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
-			 this->btnSearch->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
-			 this->lblFaceInfo->AutoSize = true;
-			 this->lblFaceInfo->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
-			 this->lblFaceInfo->ForeColor = Color::FromArgb(255, 200, 0);
-			 this->lblFaceInfo->Location = System::Drawing::Point(220, 545);
-			 this->lblFaceInfo->Name = L"lblFaceInfo";
-			 this->lblFaceInfo->Size = System::Drawing::Size(160, 17);
-			 this->lblFaceInfo->TabIndex = 6;
-			 this->lblFaceInfo->Text = L"TARGET: 0 / 0";
-			 this->openFileDialog1->Filter = L"Image Files|*.jpg;*.jpeg;*.png;*.bmp";
-			 this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
-			 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			 this->BackColor = Color::FromArgb(15, 15, 20);
-			 this->ClientSize = System::Drawing::Size(600, 580);
-			 this->Controls->Add(this->lblTimestamp);
-			 this->Controls->Add(this->lblRecording);
-			 this->Controls->Add(this->lblStatus);
-			 this->Controls->Add(this->lblTitle);
-			 this->Controls->Add(this->lblFaceInfo);
-			 this->Controls->Add(this->btnSearch);
-			 this->Controls->Add(this->btnNext);
-			 this->Controls->Add(this->btnPrev);
-			 this->Controls->Add(this->btnDetect);
-			 this->Controls->Add(this->btnUpload);
-			 this->Controls->Add(this->pictureBox1);
-			 this->Name = L"CropForm";
-			 this->Text = L"SURVEILLANCE - TARGET IDENTIFICATION";
-			 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
-			 this->ResumeLayout(false);
-			 this->PerformLayout();
+				this->btnDetect->Name = L"btnDetect";
+				this->btnDetect->Size = System::Drawing::Size(100, 35);
+				this->btnDetect->TabIndex = 2;
+				this->btnDetect->Text = L"[SCAN]";
+				this->btnDetect->UseVisualStyleBackColor = false;
+				this->btnDetect->Click += gcnew System::EventHandler(this, &CropForm::btnDetect_Click);
+				this->btnDetect->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
+				this->btnDetect->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
+				this->btnPrev->BackColor = Color::FromArgb(30, 30, 40);
+				this->btnPrev->Enabled = false;
+				this->btnPrev->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+				this->btnPrev->FlatAppearance->BorderColor = Color::FromArgb(100, 255, 100);
+				this->btnPrev->FlatAppearance->BorderSize = 2;
+				this->btnPrev->Font = (gcnew System::Drawing::Font(L"Consolas", 12, System::Drawing::FontStyle::Bold));
+				this->btnPrev->ForeColor = Color::FromArgb(100, 255, 100);
+				this->btnPrev->Location = System::Drawing::Point(290, 495);
+				this->btnPrev->Name = L"btnPrev";
+				this->btnPrev->Size = System::Drawing::Size(50, 35);
+				this->btnPrev->TabIndex = 3;
+				this->btnPrev->Text = L"◄";
+				this->btnPrev->UseVisualStyleBackColor = false;
+				this->btnPrev->Click += gcnew System::EventHandler(this, &CropForm::btnPrev_Click);
+				this->btnPrev->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
+				this->btnPrev->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
+				this->btnNext->BackColor = Color::FromArgb(30, 30, 40);
+				this->btnNext->Enabled = false;
+				this->btnNext->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+				this->btnNext->FlatAppearance->BorderColor = Color::FromArgb(100, 255, 100);
+				this->btnNext->FlatAppearance->BorderSize = 2;
+				this->btnNext->Font = (gcnew System::Drawing::Font(L"Consolas", 12, System::Drawing::FontStyle::Bold));
+				this->btnNext->ForeColor = Color::FromArgb(100, 255, 100);
+				this->btnNext->Location = System::Drawing::Point(360, 495);
+				this->btnNext->Name = L"btnNext";
+				this->btnNext->Size = System::Drawing::Size(50, 35);
+				this->btnNext->TabIndex = 4;
+				this->btnNext->Text = L"►";
+				this->btnNext->UseVisualStyleBackColor = false;
+				this->btnNext->Click += gcnew System::EventHandler(this, &CropForm::btnNext_Click);
+				this->btnNext->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
+				this->btnNext->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
+				this->btnSearch->BackColor = Color::FromArgb(30, 30, 40);
+				this->btnSearch->Enabled = false;
+				this->btnSearch->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+				this->btnSearch->FlatAppearance->BorderColor = Color::FromArgb(255, 50, 50);
+				this->btnSearch->FlatAppearance->BorderSize = 2;
+				this->btnSearch->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Bold));
+				this->btnSearch->ForeColor = Color::FromArgb(255, 100, 100);
+				this->btnSearch->Location = System::Drawing::Point(430, 495);
+				this->btnSearch->Name = L"btnSearch";
+				this->btnSearch->Size = System::Drawing::Size(120, 35);
+				this->btnSearch->TabIndex = 5;
+				this->btnSearch->Text = L"[SELECT]";
+				this->btnSearch->UseVisualStyleBackColor = false;
+				this->btnSearch->Click += gcnew System::EventHandler(this, &CropForm::btnSearch_Click);
+				this->btnSearch->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
+				this->btnSearch->MouseLeave += gcnew System::EventHandler(this, &CropForm::Button_MouseLeave);
+				this->lblFaceInfo->AutoSize = true;
+				this->lblFaceInfo->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Bold));
+				this->lblFaceInfo->ForeColor = Color::FromArgb(255, 200, 0);
+				this->lblFaceInfo->Location = System::Drawing::Point(220, 545);
+				this->lblFaceInfo->Name = L"lblFaceInfo";
+				this->lblFaceInfo->Size = System::Drawing::Size(160, 17);
+				this->lblFaceInfo->TabIndex = 6;
+				this->lblFaceInfo->Text = L"TARGET: 0 / 0";
+				this->openFileDialog1->Filter = L"Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+				this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+				this->BackColor = Color::FromArgb(15, 15, 20);
+				this->ClientSize = System::Drawing::Size(600, 580);
+				this->Controls->Add(this->lblTimestamp);
+				this->Controls->Add(this->lblRecording);
+				this->Controls->Add(this->lblStatus);
+				this->Controls->Add(this->lblTitle);
+				this->Controls->Add(this->lblFaceInfo);
+				this->Controls->Add(this->btnSearch);
+				this->Controls->Add(this->btnNext);
+				this->Controls->Add(this->btnPrev);
+				this->Controls->Add(this->btnDetect);
+				this->Controls->Add(this->btnUpload);
+				this->Controls->Add(this->pictureBox1);
+				this->Name = L"CropForm";
+				this->Text = L"SURVEILLANCE - TARGET IDENTIFICATION";
+				(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+				this->ResumeLayout(false);
+				this->PerformLayout();
 
 			}
 #pragma endregion
@@ -295,36 +294,6 @@ namespace FDCProject {
 				btnSearch->BackColor = Color::FromArgb(30, 30, 40);
 				btnSearch->ForeColor = Color::FromArgb(255, 100, 100);
 				btnSearch->FlatAppearance->BorderColor = Color::FromArgb(255, 50, 50);
-			}
-
-			// Draw corner brackets on PictureBox
-			System::Void PictureBox_Paint(Object^ sender, PaintEventArgs^ e)
-			{
-				PictureBox^ pb = safe_cast<PictureBox^>(sender);
-				Graphics^ g = e->Graphics;
-				Pen^ greenPen = gcnew Pen(Color::FromArgb(0, 255, 0), 3);
-
-				int cornerSize = 20;
-				int w = pb->Width - 1;
-				int h = pb->Height - 1;
-
-				// Top-left corner
-				g->DrawLine(greenPen, 0, 0, cornerSize, 0);
-				g->DrawLine(greenPen, 0, 0, 0, cornerSize);
-
-				// Top-right corner
-				g->DrawLine(greenPen, w - cornerSize, 0, w, 0);
-				g->DrawLine(greenPen, w, 0, w, cornerSize);
-
-				// Bottom-left corner
-				g->DrawLine(greenPen, 0, h - cornerSize, 0, h);
-				g->DrawLine(greenPen, 0, h, cornerSize, h);
-
-				// Bottom-right corner
-				g->DrawLine(greenPen, w - cornerSize, h, w, h);
-				g->DrawLine(greenPen, w, h - cornerSize, w, h);
-
-				delete greenPen;
 			}
 
 			// Recording indicator blink
