@@ -12,30 +12,28 @@ System::Void CropForm::btnSearch_Click(System::Object^ sender, System::EventArgs
 
 	try
 	{
-		String^ tempFacePath = "temp_search_face.jpg";
+		String^ tempFacePath = "temp_selected_target.jpg";
 		marshal_context context;
 		std::string tempPath = context.marshal_as<std::string>(tempFacePath);
 
 		if (!faceDetector->SaveCurrentFace(currentFaceIndex, tempPath))
 		{
-			MessageBox::Show("Cannot save face for search");
+			MessageBox::Show("SYSTEM ERROR: CANNOT SAVE TARGET", "ERROR",
+				MessageBoxButtons::OK, MessageBoxIcon::Error);
 			return;
 		}
 
-		array<String^>^ topMatches = gcnew array<String^>(3);
-		array<double>^ scores = gcnew array<double>(3);
+		mainForm->SetSelectedTarget(tempFacePath);
 
-		FindTopMatches(tempFacePath, topMatches, scores);
+		MessageBox::Show("TARGET SELECTED - RETURN TO MAIN SCREEN TO IDENTIFY", "SUCCESS",
+			MessageBoxButtons::OK, MessageBoxIcon::Information);
 
-		if (File::Exists(tempFacePath))
-			File::Delete(tempFacePath);
-
-		mainForm->UpdateSearchResults(topMatches, scores);
 		this->Close();
 	}
 	catch (Exception^ ex)
 	{
-		MessageBox::Show("Search error: " + ex->Message);
+		MessageBox::Show("SYSTEM ERROR: " + ex->Message, "ERROR",
+			MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
 }
 

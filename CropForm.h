@@ -242,7 +242,7 @@ namespace FDCProject {
 			this->btnSearch->Name = L"btnSearch";
 			this->btnSearch->Size = System::Drawing::Size(120, 35);
 			this->btnSearch->TabIndex = 5;
-			this->btnSearch->Text = L"[IDENTIFY]";
+			this->btnSearch->Text = L"[SELECT]";
 			this->btnSearch->UseVisualStyleBackColor = false;
 			this->btnSearch->Click += gcnew System::EventHandler(this, &CropForm::btnSearch_Click);
 			this->btnSearch->MouseEnter += gcnew System::EventHandler(this, &CropForm::Button_MouseEnter);
@@ -477,64 +477,6 @@ namespace FDCProject {
 			btnPrev->Enabled = (currentFaceIndex > 0);
 			btnNext->Enabled = (currentFaceIndex < faceCount - 1);
 			btnSearch->Enabled = (faceCount > 0);
-		}
-
-		void FindTopMatches(String^ queryFacePath, array<String^>^% matches, array<double>^% scores)
-		{
-			String^ galleryPath = "faces";
-			if (!Directory::Exists(galleryPath))
-			{
-				Directory::CreateDirectory(galleryPath);
-			}
-
-			array<String^>^ faceFiles = Directory::GetFiles(galleryPath, "*.jpg");
-
-			if (faceFiles->Length == 0)
-			{
-				MessageBox::Show("ALERT: DATABASE EMPTY - NO RECORDS FOUND", "NO DATA",
-					MessageBoxButtons::OK, MessageBoxIcon::Warning);
-				return;
-			}
-
-			System::Collections::Generic::List<Tuple<String^, double>^>^ results =
-				gcnew System::Collections::Generic::List<Tuple<String^, double>^>();
-
-			msclr::interop::marshal_context context;
-			std::string queryPath = context.marshal_as<std::string>(queryFacePath);
-
-			for each (String ^ filePath in faceFiles)
-			{
-				std::string galleryFilePath = context.marshal_as<std::string>(filePath);
-
-				double distance = faceDetector->ComputeDistance(queryPath, galleryFilePath);
-				if (distance >= 0)
-				{
-					results->Add(gcnew Tuple<String^, double>(filePath, distance));
-				}
-			}
-
-			if (results->Count > 0)
-			{
-				for (int i = 0; i < results->Count - 1; i++)
-				{
-					for (int j = i + 1; j < results->Count; j++)
-					{
-						if (results[i]->Item2 > results[j]->Item2)
-						{
-							Tuple<String^, double>^ temp = results[i];
-							results[i] = results[j];
-							results[j] = temp;
-						}
-					}
-				}
-
-				int matchCount = Math::Min(3, results->Count);
-				for (int i = 0; i < matchCount; i++)
-				{
-					matches[i] = results[i]->Item1;
-					scores[i] = results[i]->Item2;
-				}
-			}
 		}
 	};
 }

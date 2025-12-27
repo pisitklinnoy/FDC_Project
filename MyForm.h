@@ -36,6 +36,9 @@ namespace FDCProject {
 			timestampTimer->Tick += gcnew EventHandler(this, &MyForm::TimestampTimer_Tick);
 			timestampTimer->Start();
 			UpdateTimestamp();
+
+			// Initialize selected target path
+			selectedTargetPath = nullptr;
 		}
 
 	protected:
@@ -70,11 +73,15 @@ namespace FDCProject {
 	private: System::Windows::Forms::Label^ lblScore1;
 	private: System::Windows::Forms::Label^ lblScore2;
 	private: System::Windows::Forms::Label^ lblScore3;
+	private: System::Windows::Forms::Button^ btnSelectTarget;
 	private: System::Windows::Forms::Button^ btnSearchPerson;
 	private: System::Windows::Forms::Button^ btnManageGallery;
 	private: System::Windows::Forms::Timer^ recTimer;
 	private: System::Windows::Forms::Timer^ timestampTimer;
 	private: bool recBlinkState;
+
+	public:
+		String^ selectedTargetPath;
 
 	private:
 		System::ComponentModel::Container^ components;
@@ -95,6 +102,7 @@ namespace FDCProject {
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
 			this->lblScore3 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
+			this->btnSelectTarget = (gcnew System::Windows::Forms::Button());
 			this->btnSearchPerson = (gcnew System::Windows::Forms::Button());
 			this->btnManageGallery = (gcnew System::Windows::Forms::Button());
 			this->groupBox1->SuspendLayout();
@@ -244,17 +252,35 @@ namespace FDCProject {
 			this->pictureBox3->TabStop = false;
 			this->pictureBox3->Paint += gcnew PaintEventHandler(this, &MyForm::PictureBox_Paint);
 
+			// btnSelectTarget
+			this->btnSelectTarget->BackColor = Color::FromArgb(30, 30, 40);
+			this->btnSelectTarget->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnSelectTarget->FlatAppearance->BorderColor = Color::FromArgb(155, 89, 182);
+			this->btnSelectTarget->FlatAppearance->BorderSize = 2;
+			this->btnSelectTarget->Font = (gcnew System::Drawing::Font(L"Consolas", 11, System::Drawing::FontStyle::Bold));
+			this->btnSelectTarget->ForeColor = Color::FromArgb(200, 150, 255);
+			this->btnSelectTarget->Location = System::Drawing::Point(70, 420);
+			this->btnSelectTarget->Name = L"btnSelectTarget";
+			this->btnSelectTarget->Size = System::Drawing::Size(180, 45);
+			this->btnSelectTarget->TabIndex = 5;
+			this->btnSelectTarget->Text = L"[SELECT TARGET]";
+			this->btnSelectTarget->UseVisualStyleBackColor = false;
+			this->btnSelectTarget->Click += gcnew System::EventHandler(this, &MyForm::btnSelectTarget_Click);
+			this->btnSelectTarget->MouseEnter += gcnew System::EventHandler(this, &MyForm::Button_MouseEnter);
+			this->btnSelectTarget->MouseLeave += gcnew System::EventHandler(this, &MyForm::Button_MouseLeave);
+
 			// btnSearchPerson
 			this->btnSearchPerson->BackColor = Color::FromArgb(30, 30, 40);
+			this->btnSearchPerson->Enabled = false;
 			this->btnSearchPerson->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnSearchPerson->FlatAppearance->BorderColor = Color::FromArgb(52, 152, 219);
 			this->btnSearchPerson->FlatAppearance->BorderSize = 2;
 			this->btnSearchPerson->Font = (gcnew System::Drawing::Font(L"Consolas", 11, System::Drawing::FontStyle::Bold));
 			this->btnSearchPerson->ForeColor = Color::FromArgb(100, 200, 255);
-			this->btnSearchPerson->Location = System::Drawing::Point(160, 420);
+			this->btnSearchPerson->Location = System::Drawing::Point(270, 420);
 			this->btnSearchPerson->Name = L"btnSearchPerson";
 			this->btnSearchPerson->Size = System::Drawing::Size(180, 45);
-			this->btnSearchPerson->TabIndex = 5;
+			this->btnSearchPerson->TabIndex = 6;
 			this->btnSearchPerson->Text = L"[IDENTIFY TARGET]";
 			this->btnSearchPerson->UseVisualStyleBackColor = false;
 			this->btnSearchPerson->Click += gcnew System::EventHandler(this, &MyForm::btnSearchPerson_Click);
@@ -268,10 +294,10 @@ namespace FDCProject {
 			this->btnManageGallery->FlatAppearance->BorderSize = 2;
 			this->btnManageGallery->Font = (gcnew System::Drawing::Font(L"Consolas", 11, System::Drawing::FontStyle::Bold));
 			this->btnManageGallery->ForeColor = Color::FromArgb(100, 255, 150);
-			this->btnManageGallery->Location = System::Drawing::Point(380, 420);
+			this->btnManageGallery->Location = System::Drawing::Point(470, 420);
 			this->btnManageGallery->Name = L"btnManageGallery";
 			this->btnManageGallery->Size = System::Drawing::Size(180, 45);
-			this->btnManageGallery->TabIndex = 6;
+			this->btnManageGallery->TabIndex = 7;
 			this->btnManageGallery->Text = L"[DATABASE]";
 			this->btnManageGallery->UseVisualStyleBackColor = false;
 			this->btnManageGallery->Click += gcnew System::EventHandler(this, &MyForm::btnManageGallery_Click);
@@ -287,6 +313,7 @@ namespace FDCProject {
 			this->Controls->Add(this->lblRecording);
 			this->Controls->Add(this->btnManageGallery);
 			this->Controls->Add(this->btnSearchPerson);
+			this->Controls->Add(this->btnSelectTarget);
 			this->Controls->Add(this->groupBox3);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
@@ -372,6 +399,18 @@ namespace FDCProject {
 		}
 
 	public:
+		void SetSelectedTarget(String^ targetPath)
+		{
+			selectedTargetPath = targetPath;
+			btnSearchPerson->Enabled = (targetPath != nullptr);
+			
+			if (targetPath != nullptr)
+			{
+				lblStatus->Text = "STATUS: TARGET SELECTED - READY TO IDENTIFY";
+				lblStatus->ForeColor = Color::FromArgb(100, 255, 100);
+			}
+		}
+
 		void UpdateSearchResults(array<String^>^ imagePaths, array<double>^ scores)
 		{
 			lblStatus->Text = "STATUS: SCANNING...";
@@ -434,6 +473,9 @@ namespace FDCProject {
 			lblStatus->Text = "STATUS: SCAN COMPLETE - " + imagePaths->Length + " TARGET(S) IDENTIFIED";
 			lblStatus->ForeColor = Color::FromArgb(0, 255, 0);
 		}
+
+	private:
+		System::Void btnSelectTarget_Click(System::Object^ sender, System::EventArgs^ e);
 
 	private:
 		System::Void btnSearchPerson_Click(System::Object^ sender, System::EventArgs^ e);
