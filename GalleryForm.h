@@ -272,11 +272,29 @@ namespace FDCProject {
 						Directory::CreateDirectory(galleryPath);
 					}
 
+					// ????? Person ID ???????????????????
+					int maxPersonId = 0;
+					array<String^>^ existingFiles = Directory::GetFiles(galleryPath, "Person_*.jpg");
+					for each(String ^ file in existingFiles)
+					{
+						String^ fileName = Path::GetFileNameWithoutExtension(file);
+						array<String^>^ parts = fileName->Split('_');
+						if (parts->Length >= 2)
+						{
+							int personId;
+							if (Int32::TryParse(parts[1], personId))
+							{
+								if (personId > maxPersonId)
+									maxPersonId = personId;
+							}
+						}
+					}
+
 					int savedCount = 0;
 					for (int i = 0; i < faceCount; i++)
 					{
-						String^ faceFileName = galleryPath + "\\Person_" +
-							DateTime::Now.Ticks.ToString() + "_" + i + ".jpg";
+						int newPersonId = maxPersonId + i + 1;
+						String^ faceFileName = galleryPath + "\\Person_" + newPersonId + ".jpg";
 
 						std::string faceFilePath = context.marshal_as<std::string>(faceFileName);
 
@@ -327,7 +345,7 @@ namespace FDCProject {
 				lblStatus->ForeColor = Color::FromArgb(0, 255, 0);
 			}
 
-			for each (String ^ filePath in faceFiles)
+			for each(String ^ filePath in faceFiles)
 			{
 				Panel^ facePanel = gcnew Panel();
 				facePanel->Size = System::Drawing::Size(140, 220);
@@ -340,7 +358,20 @@ namespace FDCProject {
 				facePictureBox->Location = System::Drawing::Point(10, 10);
 				facePictureBox->BackColor = System::Drawing::Color::Black;
 				facePictureBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-				facePictureBox->Image = Image::FromFile(filePath);
+
+				// ??????????????????? - ??? FileStream ??? Image::FromFile
+				try
+				{
+					FileStream^ fs = gcnew FileStream(filePath, FileMode::Open, FileAccess::Read);
+					facePictureBox->Image = Image::FromStream(fs);
+					fs->Close();
+					delete fs;
+				}
+				catch (Exception^ ex)
+				{
+					facePictureBox->Image = nullptr;
+				}
+
 				facePictureBox->Paint += gcnew PaintEventHandler(this, &GalleryForm::PictureBox_Paint);
 
 				Label^ faceLabel = gcnew Label();
@@ -432,6 +463,21 @@ namespace FDCProject {
 			{
 				try
 				{
+					// ??????????????????? - Dispose ????????????
+					Panel^ parentPanel = safe_cast<Panel^>(btn->Parent);
+					for each(Control ^ ctrl in parentPanel->Controls)
+					{
+						PictureBox^ picBox = dynamic_cast<PictureBox^>(ctrl);
+						if (picBox != nullptr && picBox->Image != nullptr)
+						{
+							delete picBox->Image;
+							picBox->Image = nullptr;
+						}
+					}
+
+					System::GC::Collect();
+					System::GC::WaitForPendingFinalizers();
+
 					File::Delete(filePath);
 					lblStatus->Text = "STATUS: RECORD DELETED";
 					lblStatus->ForeColor = Color::FromArgb(255, 150, 50);

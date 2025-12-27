@@ -13,6 +13,7 @@ namespace FDCProject {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
@@ -378,23 +379,52 @@ namespace FDCProject {
 
 			if (imagePaths->Length >= 1 && imagePaths[0] != nullptr)
 			{
-				pictureBox1->Image = Image::FromFile(imagePaths[0]);
+				try
+				{
+					FileStream^ fs = gcnew FileStream(imagePaths[0], FileMode::Open, FileAccess::Read);
+					if (pictureBox1->Image != nullptr) delete pictureBox1->Image;
+					pictureBox1->Image = Image::FromStream(fs);
+					fs->Close();
+					delete fs;
+				}
+				catch (Exception^) {}
+
 				double similarity = 100.0 / (1.0 + scores[0] / 1000.0);
 				String^ confidenceLevel = similarity > 80 ? "HIGH" : (similarity > 60 ? "MEDIUM" : "LOW");
 				lblScore1->Text = "MATCH: " + similarity.ToString("F1") + "% [" + confidenceLevel + "]";
 				pictureBox1->Refresh();
 			}
+
 			if (imagePaths->Length >= 2 && imagePaths[1] != nullptr)
 			{
-				pictureBox2->Image = Image::FromFile(imagePaths[1]);
+				try
+				{
+					FileStream^ fs = gcnew FileStream(imagePaths[1], FileMode::Open, FileAccess::Read);
+					if (pictureBox2->Image != nullptr) delete pictureBox2->Image;
+					pictureBox2->Image = Image::FromStream(fs);
+					fs->Close();
+					delete fs;
+				}
+				catch (Exception^) {}
+
 				double similarity = 100.0 / (1.0 + scores[1] / 1000.0);
 				String^ confidenceLevel = similarity > 80 ? "HIGH" : (similarity > 60 ? "MEDIUM" : "LOW");
 				lblScore2->Text = "MATCH: " + similarity.ToString("F1") + "% [" + confidenceLevel + "]";
 				pictureBox2->Refresh();
 			}
+
 			if (imagePaths->Length >= 3 && imagePaths[2] != nullptr)
 			{
-				pictureBox3->Image = Image::FromFile(imagePaths[2]);
+				try
+				{
+					FileStream^ fs = gcnew FileStream(imagePaths[2], FileMode::Open, FileAccess::Read);
+					if (pictureBox3->Image != nullptr) delete pictureBox3->Image;
+					pictureBox3->Image = Image::FromStream(fs);
+					fs->Close();
+					delete fs;
+				}
+				catch (Exception^) {}
+
 				double similarity = 100.0 / (1.0 + scores[2] / 1000.0);
 				String^ confidenceLevel = similarity > 80 ? "HIGH" : (similarity > 60 ? "MEDIUM" : "LOW");
 				lblScore3->Text = "MATCH: " + similarity.ToString("F1") + "% [" + confidenceLevel + "]";
