@@ -124,7 +124,7 @@ namespace FDCProject {
 			// 
 			this->lblTitle->AutoSize = true;
 			this->lblTitle->Font = (gcnew System::Drawing::Font(L"Consolas", 18, System::Drawing::FontStyle::Bold));
-			this->lblTitle->Location = System::Drawing::Point(180, 15);
+			this->lblTitle->Location = System::Drawing::Point(243, 9);
 			this->lblTitle->Name = L"lblTitle";
 			this->lblTitle->Size = System::Drawing::Size(447, 36);
 			this->lblTitle->TabIndex = 0;
@@ -154,7 +154,7 @@ namespace FDCProject {
 			// 
 			this->lblTimestamp->AutoSize = true;
 			this->lblTimestamp->Font = (gcnew System::Drawing::Font(L"Consolas", 9));
-			this->lblTimestamp->Location = System::Drawing::Point(520, 52);
+			this->lblTimestamp->Location = System::Drawing::Point(750, 52);
 			this->lblTimestamp->Name = L"lblTimestamp";
 			this->lblTimestamp->Size = System::Drawing::Size(160, 18);
 			this->lblTimestamp->TabIndex = 8;
@@ -342,7 +342,7 @@ namespace FDCProject {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(960, 490);
+			this->ClientSize = System::Drawing::Size(960, 506);
 			this->Controls->Add(this->lblTimestamp);
 			this->Controls->Add(this->lblRecording);
 			this->Controls->Add(this->btnManageGallery);
