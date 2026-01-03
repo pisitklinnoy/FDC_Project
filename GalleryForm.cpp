@@ -109,6 +109,55 @@ System::Void GalleryForm::btnUploadFullImage_Click(System::Object^ sender, Syste
 	}
 }
 
+System::Void GalleryForm::btnClearAll_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	String^ galleryPath = "faces";
+	if (!Directory::Exists(galleryPath) || Directory::GetFiles(galleryPath, "*.jpg")->Length == 0)
+	{
+		MessageBox::Show("DATABASE IS ALREADY EMPTY", "INFO", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		return;
+	}
+
+	System::Windows::Forms::DialogResult result = MessageBox::Show(
+		"CONFIRM: DELETE ALL RECORDS FROM DATABASE?",
+		"SECURITY CONFIRMATION",
+		MessageBoxButtons::YesNo,
+		MessageBoxIcon::Warning);
+
+	if (result == System::Windows::Forms::DialogResult::Yes)
+	{
+		try
+		{
+			// 1. ??????? UI ???????
+			flowLayoutPanel1->Controls->Clear();
+
+			// 2. ????? Garbage Collector ??????????????????????? File Lock
+			System::GC::Collect();
+			System::GC::WaitForPendingFinalizers();
+
+			// 3. ?????????????
+			array<String^>^ files = Directory::GetFiles(galleryPath, "*.jpg");
+			for each(String ^ file in files)
+			{
+				File::Delete(file);
+			}
+
+			lblStatus->Text = "STATUS: DATABASE CLEARED";
+			lblStatus->ForeColor = Color::FromArgb(255, 150, 50);
+
+			MessageBox::Show("ALL TARGETS REMOVED FROM DATABASE", "SUCCESS",
+				MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+			LoadGalleryFaces();
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show("SYSTEM ERROR: " + ex->Message, "ERROR",
+				MessageBoxButtons::OK, MessageBoxIcon::Error);
+		}
+	}
+}
+
 void GalleryForm::LoadGalleryFaces()
 {
 	flowLayoutPanel1->Controls->Clear();
@@ -170,7 +219,7 @@ void GalleryForm::LoadGalleryFaces()
 		deleteButton->Text = L"[DELETE]";
 		deleteButton->Location = System::Drawing::Point(20, 180);
 		deleteButton->Size = System::Drawing::Size(100, 30);
-		deleteButton->BackColor = Color::FromArgb(30, 30, 40);
+		deleteButton->BackColor = Color::FromArgb(60, 20, 20);
 		deleteButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 		deleteButton->FlatAppearance->BorderColor = Color::FromArgb(255, 50, 50);
 		deleteButton->FlatAppearance->BorderSize = 2;
